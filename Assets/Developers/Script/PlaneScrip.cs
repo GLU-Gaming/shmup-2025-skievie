@@ -20,6 +20,8 @@ public class PlaneScrip : MonoBehaviour
 
     private void Update()
     {
+        shootCooldownTimer -= Time.deltaTime;
+
 
     }
 
@@ -40,17 +42,22 @@ public class PlaneScrip : MonoBehaviour
         {
             rb.linearVelocity = transform.right * moveSpeed;
         }
-        else
+        else // stopt bewegen
         {
             rb.linearVelocity = Vector3.zero;
+        }
+
+        if (shootCooldownTimer > 0) // aftellen
+        {
+            shootCooldownTimer -= Time.fixedDeltaTime;
         }
 
         if (Input.GetKey(KeyCode.Space) && shootCooldownTimer <= 0) // kogel afvuren
         {
             if (laserKogel != null && bulletSpawnPointTest != null)
             {
-                Instantiate(laserKogel, bulletSpawnPointTest.transform.position, transform.rotation);
-                shootCooldownTimer = 0.5f;
+                Instantiate(laserKogel, bulletSpawnPointTest.transform.position, laserKogel.transform.rotation);
+                shootCooldownTimer = 1f;
             }
         }
 
