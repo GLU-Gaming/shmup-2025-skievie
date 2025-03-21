@@ -6,7 +6,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] public float Speed = 100;
     [SerializeField] private float destroyTime = 2;
 
-    public GameManagement game;
+    public GameManagement game; // script aan script 
 
     void Start()
     {

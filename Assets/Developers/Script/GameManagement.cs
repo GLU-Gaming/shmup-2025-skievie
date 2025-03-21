@@ -19,7 +19,7 @@ public class GameManagement : MonoBehaviour
         
     }
 
-    public void RemoveEnemy(GameObject enemiesToRemove)
+    public void RemoveEnemy(GameObject enemiesToRemove) // verwijderen van enemy
     {
         
         spawnedEnemies.Remove(enemiesToRemove);

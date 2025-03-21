@@ -6,7 +6,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private GameObject EnemyTest;
     [SerializeField] private float moveSpeed = 8;
 
-    public GameManagement game;
+    public GameManagement game; // script aan script 
 
     void Start()
     {
@@ -18,13 +18,13 @@ public class EnemyScript : MonoBehaviour
         
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
     {
-        Shooter projectile = collision.gameObject.GetComponent<Shooter>();
-        PlaneScrip player = collision.gameObject.GetComponent<PlaneScrip>();
+        Shooter projectile = collision.gameObject.GetComponent<Shooter>(); // kogel 
+        PlaneScrip player = collision.gameObject.GetComponent<PlaneScrip>(); // speler
         if (projectile != null)
         {
-            game.RemoveEnemy(gameObject);
+            game.RemoveEnemy(gameObject); // verwijst naar de functie van gamemanager
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
