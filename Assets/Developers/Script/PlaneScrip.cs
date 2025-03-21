@@ -12,6 +12,8 @@ public class PlaneScrip : MonoBehaviour
 
     public float moveSpeed = 3f; // In game is ie op 6 trouwens
 
+    public GameManagement game;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>(); // object ophalen

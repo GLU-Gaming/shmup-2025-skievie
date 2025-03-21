@@ -5,6 +5,9 @@ public class EnemyScript : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private GameObject EnemyTest;
     [SerializeField] private float moveSpeed = 8;
+
+    public GameManagement game;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -15,23 +18,20 @@ public class EnemyScript : MonoBehaviour
         
     }
 
-    //public void OnCollisionEnter(Collision collision)
-    //{
-    //    Projectile projectile = collision.gameObject.GetComponent<Projectile>();
-    //    SpaceShip player = collision.gameObject.GetComponent<SpaceShip>();
-    //    if (projectile != null)
-    //    {
+    public void OnCollisionEnter(Collision collision)
+    {
+        Shooter projectile = collision.gameObject.GetComponent<Shooter>();
+        PlaneScrip player = collision.gameObject.GetComponent<PlaneScrip>();
+        if (projectile != null)
+        {
+            game.RemoveEnemy(gameObject);
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
 
-    //        game.AddScore(scoreAmount);
-    //        Instantiate(Particle, transform.position, Quaternion.identity);
-    //        game.RemoveAsteroid(gameObject);
-    //        Destroy(collision.gameObject);
-    //        Destroy(gameObject);
-    //    }
-
-    //    if (player != null)
-    //    {
-    //        // hit Player
-    //    }
-    //}
+        if (player != null)
+        {
+            // hit Player
+        }
+    }
 }
