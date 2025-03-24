@@ -35,8 +35,8 @@ public class GameManagement : MonoBehaviour
             bool temp = AsteroidPlayerOverlap(spawnpoint, 1);
             if (temp)
             {
-                GameObject go = Instantiate(GameObject[Enemies], spawnpoint, transform.rotation);
-                spawnedEnemies.Add(go);
+                //GameObject go = Instantiate(GameObject[Enemies], spawnpoint, transform.rotation);
+                //spawnedEnemies.Add(go);
             }
         }
     }
