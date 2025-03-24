@@ -9,6 +9,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 957ca8a4b3db81647837b3db84784234, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 957ca8a4b3db81647837b3db84784234, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 957ca8a4b3db81647837b3db84784234, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 37.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 957ca8a4b3db81647837b3db84784234, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.581
       objectReference: {fileID: 0}
@@ -53,6 +65,10 @@ PrefabInstance:
       value: lasertest
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 957ca8a4b3db81647837b3db84784234, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 957ca8a4b3db81647837b3db84784234, type: 3}
       propertyPath: m_TagString
       value: Bullet
       objectReference: {fileID: 0}
@@ -87,7 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99bf905091783f141be2ea0a8a9a8848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 1
+  Speed: 25
+  destroyTime: 2
 --- !u!54 &-5429511111238179203
 Rigidbody:
   m_ObjectHideFlags: 0
