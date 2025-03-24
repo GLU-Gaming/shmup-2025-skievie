@@ -28,19 +28,31 @@ public class GameManagement : MonoBehaviour
 
     private void StartNewRound()
     {
-        if (spawnedEnemies.Count < EnemyAmount)
+        while (spawnedEnemies.Count < EnemyAmount) // blijven spawnen
         {
-            Vector3 spawnpoint = new Vector3(20, Random.Range(-7, 7), 12);
-
-            bool temp = AsteroidPlayerOverlap(spawnpoint, 1);
-            if (temp)
-            {
-                GameObject go = Instantiate(Enemies[Random.Range(0, Enemies.Length)], spawnpoint, transform.rotation);
-                spawnedEnemies.Add(go);
-            }
+            SpawnEnemy();
         }
     }
 
+
+    public void EnemyDied(GameObject enemy)
+    {
+        spawnedEnemies.Remove(enemy); // remove hen
+        Destroy(enemy); // verwijder
+
+        SpawnEnemy(); // Spawn een enemy
+    }
+
+    private void SpawnEnemy()
+    {
+        Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-6, 6), 12);
+
+        if (AsteroidPlayerOverlap(spawnpoint, 1))
+        {
+            GameObject go = Instantiate(Enemies[Random.Range(0, Enemies.Length)], spawnpoint, transform.rotation);
+            spawnedEnemies.Add(go);
+        }
+    }
     public void RemoveEnemy(GameObject enemiesToRemove) // verwijderen van enemy
     {
         
