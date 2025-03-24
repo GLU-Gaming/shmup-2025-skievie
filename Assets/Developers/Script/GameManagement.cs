@@ -17,7 +17,7 @@ public class GameManagement : MonoBehaviour
 
     void Start()
     {
-        
+        StartNewRound();
     }
 
     // Update is called once per frame
@@ -30,13 +30,13 @@ public class GameManagement : MonoBehaviour
     {
         if (spawnedEnemies.Count < EnemyAmount)
         {
-            Vector3 spawnpoint = new Vector3(34, Random.Range(-15, 15), 0);
+            Vector3 spawnpoint = new Vector3(20, Random.Range(-7, 7), 12);
 
             bool temp = AsteroidPlayerOverlap(spawnpoint, 1);
             if (temp)
             {
-                //GameObject go = Instantiate(GameObject[Enemies], spawnpoint, transform.rotation);
-                //spawnedEnemies.Add(go);
+                GameObject go = Instantiate(Enemies[Random.Range(0, Enemies.Length)], spawnpoint, transform.rotation);
+                spawnedEnemies.Add(go);
             }
         }
     }

@@ -12,6 +12,8 @@ public class EnemyScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Force); // movement van enemy
+
+        game = FindAnyObjectByType<GameManagement>();
     }
     void Update()
     {

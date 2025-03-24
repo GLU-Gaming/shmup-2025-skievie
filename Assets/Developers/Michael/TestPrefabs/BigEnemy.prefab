@@ -66,11 +66,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 21b0ecf7e43395644be4252d4df2192e, type: 2}
     - target: {fileID: 919132149155446097, guid: 2ea02df3bf693004bab390efad149aed, type: 3}
       propertyPath: m_Name
-      value: BigEnemy (1)
+      value: BigEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2ea02df3bf693004bab390efad149aed, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ea02df3bf693004bab390efad149aed, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2ea02df3bf693004bab390efad149aed, type: 3}
       propertyPath: m_TagString
