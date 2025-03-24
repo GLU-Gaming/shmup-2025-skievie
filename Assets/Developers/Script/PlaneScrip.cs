@@ -110,4 +110,18 @@ public class PlaneScrip : MonoBehaviour
 
     }
 
+    public void OnCollisionEnter(Collision collision)
+    {
+        game.ReportPlayerHit();
+        ResetPlayer();
+    }
+
+    private void ResetPlayer()
+    {
+
+        transform.position = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+    }
+
 }

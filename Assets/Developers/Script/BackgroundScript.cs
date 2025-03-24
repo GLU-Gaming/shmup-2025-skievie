@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class BackgroundScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public float speed;
+
+    [SerializeField] private Renderer bgRenderer;
+
+
+    private void Update()
     {
-        
+        bgRenderer.material.mainTextureOffset -= new Vector2(speed * Time.deltaTime, 0);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+
 }
+    

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManagement : MonoBehaviour
 {
@@ -7,6 +8,10 @@ public class GameManagement : MonoBehaviour
     [SerializeField] private float EnemyAmount = 4;
 
     [SerializeField] private List<GameObject> spawnedEnemies = new List<GameObject>();
+
+    public float lifeAmount = 3;
+
+    public PlaneScrip PlanePlayerScript;
 
     void Start()
     {
@@ -27,6 +32,50 @@ public class GameManagement : MonoBehaviour
 
         
 
+    }
+
+    public void ReportPlayerHit()
+    {
+
+
+        if (lifeAmount > 2)
+        {
+            ResetPlayer();
+        }
+        else if (lifeAmount > 1)
+        {
+            
+            ResetPlayer();
+        }
+        else if (lifeAmount == 1)
+        {
+            
+            SceneManager.LoadScene("GameOverScreen");
+        }
+        else
+        {
+
+            ResetPlayer();
+            
+        }
+
+        lifeAmount -= 1;
+
+
+    }
+
+    private void ResetPlayer()
+    {
+
+        transform.position = Vector3.zero;
+        PlaneScrip player = FindFirstObjectByType<PlaneScrip>();
+
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        player.transform.position = Vector3.zero;
+        player.transform.rotation = Quaternion.identity;
     }
 
 }
