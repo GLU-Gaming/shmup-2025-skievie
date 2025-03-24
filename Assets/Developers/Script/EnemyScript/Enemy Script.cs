@@ -31,7 +31,8 @@ public class EnemyScript : MonoBehaviour
 
         if (player != null)
         {
-            // hit Player
+            game.RemoveEnemy(gameObject);
+            game.ReportPlayerHit();
         }
     }
 }

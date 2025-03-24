@@ -41,6 +41,7 @@ public class GameManagement : MonoBehaviour
         if (lifeAmount > 2)
         {
             ResetPlayer();
+            
         }
         else if (lifeAmount > 1)
         {
@@ -50,7 +51,7 @@ public class GameManagement : MonoBehaviour
         else if (lifeAmount == 1)
         {
             
-            SceneManager.LoadScene("GameOverScreen");
+            //SceneManager.LoadScene("GameOverScreen");
         }
         else
         {
@@ -75,7 +76,7 @@ public class GameManagement : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
 
         player.transform.position = Vector3.zero;
-        player.transform.rotation = Quaternion.identity;
+        player.transform.eulerAngles = Vector3.left * 90;
     }
 
 }
