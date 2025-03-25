@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManagement : MonoBehaviour
 {
     [SerializeField] private GameObject[] Enemies;
-    [SerializeField] private float EnemyAmount = 4;
+    [SerializeField] private float EnemyAmount = 3;
 
     [SerializeField] private List<GameObject> spawnedEnemies = new List<GameObject>();
 
@@ -14,6 +16,11 @@ public class GameManagement : MonoBehaviour
     public float lifeAmount = 3;
 
     public PlaneScrip PlanePlayerScript;
+
+    [SerializeField] private TextMeshProUGUI scoreText;
+
+    public int score;
+    public int highScore;
 
     void Start()
     {
@@ -28,19 +35,31 @@ public class GameManagement : MonoBehaviour
 
     private void StartNewRound()
     {
-        if (spawnedEnemies.Count < EnemyAmount)
+        while (spawnedEnemies.Count < EnemyAmount) // blijven spawnen
         {
-            Vector3 spawnpoint = new Vector3(20, Random.Range(-7, 7), 12);
-
-            bool temp = AsteroidPlayerOverlap(spawnpoint, 1);
-            if (temp)
-            {
-                GameObject go = Instantiate(Enemies[Random.Range(0, Enemies.Length)], spawnpoint, transform.rotation);
-                spawnedEnemies.Add(go);
-            }
+            SpawnEnemy();
         }
     }
 
+
+    public void EnemyDied(GameObject enemy)
+    {
+        spawnedEnemies.Remove(enemy); // remove hen
+        Destroy(enemy); // verwijder
+
+        SpawnEnemy(); // Spawn een enemy
+    }
+
+    private void SpawnEnemy()
+    {
+        Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-6, 6), 12);
+
+        if (AsteroidPlayerOverlap(spawnpoint, 1))
+        {
+            GameObject go = Instantiate(Enemies[Random.Range(0, Enemies.Length)], spawnpoint, transform.rotation);
+            spawnedEnemies.Add(go);
+        }
+    }
     public void RemoveEnemy(GameObject enemiesToRemove) // verwijderen van enemy
     {
         
@@ -113,5 +132,39 @@ public class GameManagement : MonoBehaviour
         player.transform.position = Vector3.zero;
         player.transform.eulerAngles = Vector3.left * 90;
     }
+
+    public void AddScore(int amount)
+    {
+        score = score + (amount);
+
+        scoreText.text = "Score: " + score;
+
+        if (score > highScore)
+        {
+            highScore = score;
+            SaveHighScore();
+        }
+    }
+
+    public void SaveScore()
+    {
+        PlayerPrefs.SetInt("myScore", score);
+    }
+
+    public void SaveHighScore()
+    {
+        PlayerPrefs.SetInt("myHighScore", highScore);
+    }
+
+    public void LoadScore()
+    {
+        int loadedNumber = PlayerPrefs.GetInt("myScore");
+    }
+
+    public void UpdateScoreText()
+    {
+        scoreText.text = "Score: " + score;
+    }
+
 
 }
