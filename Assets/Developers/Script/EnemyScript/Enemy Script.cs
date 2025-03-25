@@ -8,6 +8,8 @@ public class EnemyScript : MonoBehaviour
 
     public GameManagement game; // script aan script 
 
+    [SerializeField] int scoreAmount;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -26,6 +28,7 @@ public class EnemyScript : MonoBehaviour
         PlaneScrip player = collision.gameObject.GetComponent<PlaneScrip>(); // speler
         if (projectile != null)
         {
+            game.AddScore(scoreAmount);
             game.RemoveEnemy(gameObject); // verwijst naar de functie van gamemanager
             Destroy(collision.gameObject);
             Destroy(gameObject);
