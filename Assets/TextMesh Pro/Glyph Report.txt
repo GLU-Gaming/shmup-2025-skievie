@@ -1,4 +1,4 @@
-Font: Science PERSONAL USE ONLY!  Style: Regular
+Font: SPACE FUTURE  Style: Regular
 Point Size: 50   Padding: -1073741824   SP/PD Ratio: -2147484000.0%
 
 Characters included: 96/99
