@@ -93,10 +93,10 @@ public class GameManagement : MonoBehaviour
 
 
        if (lifeAmount == 1)
-        {
+       {
             
             SceneManager.LoadScene("EndGameScreen");
-        }
+       }
         else
 
         lifeAmount -= 1;
