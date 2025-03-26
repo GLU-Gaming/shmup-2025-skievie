@@ -152,5 +152,5 @@ MonoBehaviour:
   EnemyTest: {fileID: 7229147988399146015}
   moveSpeed: 8
   game: {fileID: 0}
-  scoreAmount: 0
+  scoreAmount: 25
   enemyScript: {fileID: 0}
