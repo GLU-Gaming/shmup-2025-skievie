@@ -105,7 +105,7 @@ public class GameManagement : MonoBehaviour
         else if (lifeAmount == 1)
         {
             
-            SceneManager.LoadScene("GameOverScreen");
+            //SceneManager.LoadScene("GameOverScreen");
         }
         else
         {
