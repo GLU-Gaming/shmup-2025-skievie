@@ -92,46 +92,19 @@ public class GameManagement : MonoBehaviour
     {
 
 
-        if (lifeAmount > 2)
-        {
-            ResetPlayer();
-            
-        }
-        else if (lifeAmount > 1)
-        {
-            
-            ResetPlayer();
-        }
-        else if (lifeAmount == 1)
+       if (lifeAmount == 1)
         {
             
             SceneManager.LoadScene("EndGameScreen");
         }
         else
-        {
-
-            ResetPlayer();
-            
-        }
 
         lifeAmount -= 1;
 
 
     }
 
-    private void ResetPlayer()
-    {
 
-        transform.position = Vector3.zero;
-        PlaneScrip player = FindFirstObjectByType<PlaneScrip>();
-
-        Rigidbody rb = player.GetComponent<Rigidbody>();
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-
-        player.transform.position = Vector3.zero;
-        player.transform.eulerAngles = Vector3.left * 90;
-    }
 
     public void AddScore(int amount)
     {
