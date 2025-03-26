@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 142103024884874581}
   - component: {fileID: 6064028647453760977}
   - component: {fileID: -1437201865661742854}
-  - component: {fileID: -2035660629659804297}
   - component: {fileID: -8223038530753451799}
   m_Layer: 0
   m_Name: EnemySinewave1
@@ -111,7 +110,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &142103024884874581
@@ -169,27 +168,6 @@ MonoBehaviour:
   amplitude: 1
   frequency: 0.5
   inverted: 0
---- !u!65 &-2035660629659804297
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3696967700365410483}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.0000004, y: 2.0000005, z: 1.0000002}
-  m_Center: {x: 0.00000005960466, y: 0, z: -0.00000008940697}
 --- !u!114 &-8223038530753451799
 MonoBehaviour:
   m_ObjectHideFlags: 0
