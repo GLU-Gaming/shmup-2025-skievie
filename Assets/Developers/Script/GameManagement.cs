@@ -77,8 +77,8 @@ public class GameManagement : MonoBehaviour
     {
         bool freeSpace = false;
 
-        Collider[] Asteroids = Physics.OverlapSphere(Vector3.zero, radius, enemyLayer.value);
-        if (Asteroids.Length == 0)
+        Collider[] Enemies = Physics.OverlapSphere(Vector3.zero, radius, enemyLayer.value);
+        if (Enemies.Length == 0)
         {
             freeSpace = true;
         }
