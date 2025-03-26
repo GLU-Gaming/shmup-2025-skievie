@@ -54,7 +54,7 @@ public class GameManagement : MonoBehaviour
     {
         Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-6, 6), 12);
 
-        if (AsteroidPlayerOverlap(spawnpoint, 1))
+        if (EnemyPlayerOverlap(spawnpoint, 1))
         {
             GameObject go = Instantiate(Enemies[Random.Range(0, Enemies.Length)], spawnpoint, transform.rotation);
             spawnedEnemies.Add(go);
@@ -73,7 +73,7 @@ public class GameManagement : MonoBehaviour
 
     }
 
-    public bool AsteroidPlayerOverlap(Vector3 center, float radius)
+    public bool EnemyPlayerOverlap(Vector3 center, float radius)
     {
         bool freeSpace = false;
 
