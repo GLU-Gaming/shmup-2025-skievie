@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class MiddleEnemy : EnemyScript
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Activate()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        EnemyHPdown(8);
+        game.AddScore(25);
+        Destroy(gameObject);
     }
 }

@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class SmallEnemy : EnemyScript
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Activate()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        EnemyHPdown(4);
+        game.AddScore(15);
+        Destroy(gameObject);
     }
 }
