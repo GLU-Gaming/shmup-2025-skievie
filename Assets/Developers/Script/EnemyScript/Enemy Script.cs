@@ -1,14 +1,18 @@
 using UnityEngine;
 
-public class EnemyScript : MonoBehaviour
+public abstract class EnemyScript : MonoBehaviour
 {
     private Rigidbody rb;
     [SerializeField] private GameObject EnemyTest;
     [SerializeField] private float moveSpeed = 8;
 
+    private float lessHP = 1;
+
     public GameManagement game; // script aan script 
 
     [SerializeField] int scoreAmount;
+
+    [SerializeField] private EnemyScript enemyScript;
 
     void Start()
     {
@@ -40,4 +44,21 @@ public class EnemyScript : MonoBehaviour
             game.ReportPlayerHit();
         }
     }
+
+    public void EnemyHPdown(int HPamount)
+    {
+        if (HPamount == 0)
+        {
+            Destroy(gameObject);
+        }
+
+
+        lessHP -= 1;
+    }
+
+    public virtual void Activate()
+    {
+        
+    }
+
 }
