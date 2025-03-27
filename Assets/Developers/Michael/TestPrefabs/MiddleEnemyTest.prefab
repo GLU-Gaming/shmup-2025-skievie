@@ -186,7 +186,8 @@ MonoBehaviour:
   game: {fileID: 0}
   scoreAmount: 25
   HPamount: 4
-  fireRate: 0.5
+  fireRate: 0.75
+  fireRateTimer: 0.75
   fireDamage: 17
   EnemyBullet: {fileID: 2374661330202201196, guid: 00645fa631b515c4bb6c80da9a519153, type: 3}
   EnemyBulletSpawnPoint: {fileID: 489805183635170904}

@@ -5,7 +5,7 @@ public class BigEnemy : EnemyScript
     public override void Activate()
     {
         game.TakeDamageFromEnemy(25);
-        fireRateTimer = 0.75f;
+        fireRate = 0.75f; // ingame veranderd
         HPamount = 9;
         game.AddScore(35);
         Destroy(gameObject);

@@ -152,12 +152,13 @@ MonoBehaviour:
   - {fileID: 3039374141847747979, guid: bb5212f860cadb04db52936d75dbdca8, type: 3}
   - {fileID: 8310354026075503104, guid: b13fa733eb7d2cb45990a1d4055cd63c, type: 3}
   - {fileID: 7229147988399146015, guid: a61eaefec349d344abc8f4d1fdb3d109, type: 3}
-  EnemyAmount: 4
+  EnemyAmount: 3
   spawnedEnemies: []
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
   lifeAmount: 3
+  playerHP: 100
   PlanePlayerScript: {fileID: 1446154096}
   ScriptForEnemy: {fileID: 0}
   scoreText: {fileID: 647710516}
@@ -992,6 +993,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1958576012009517483, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4493585093827132993, guid: c728c74a753942f49b18766a0a4b384a, type: 3}
     - target: {fileID: 2434117641393878197, guid: b92382c4683e2b244969856f5b70b362, type: 3}
       propertyPath: shootCooldownTimer
       value: 0
@@ -1064,10 +1069,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7851801636736984800, guid: b13fa733eb7d2cb45990a1d4055cd63c, type: 3}
-      propertyPath: scoreAmount
-      value: 35
-      objectReference: {fileID: 0}
     - target: {fileID: 8310354026075503104, guid: b13fa733eb7d2cb45990a1d4055cd63c, type: 3}
       propertyPath: m_Name
       value: BigEnemyTest
@@ -1169,10 +1170,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3803680273470385446, guid: a61eaefec349d344abc8f4d1fdb3d109, type: 3}
-      propertyPath: scoreAmount
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 7229147988399146015, guid: a61eaefec349d344abc8f4d1fdb3d109, type: 3}
       propertyPath: m_Name
       value: MiddleEnemyTest
@@ -1180,6 +1177,10 @@ PrefabInstance:
     - target: {fileID: 7229147988399146015, guid: a61eaefec349d344abc8f4d1fdb3d109, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587516156451900517, guid: a61eaefec349d344abc8f4d1fdb3d109, type: 3}
+      propertyPath: m_Constraints
+      value: 56
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1194,14 +1195,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2081413777025367014, guid: bb5212f860cadb04db52936d75dbdca8, type: 3}
-      propertyPath: HPamount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2081413777025367014, guid: bb5212f860cadb04db52936d75dbdca8, type: 3}
-      propertyPath: scoreAmount
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 3039374141847747979, guid: bb5212f860cadb04db52936d75dbdca8, type: 3}
       propertyPath: m_Name
       value: SmallEnemyTest

@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 25
-  destroyTime: 2
+  destroyTime: 1
   game: {fileID: 0}
 --- !u!54 &1683713675434583848
 Rigidbody:

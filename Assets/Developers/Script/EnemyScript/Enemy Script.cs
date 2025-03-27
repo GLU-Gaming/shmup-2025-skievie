@@ -30,10 +30,20 @@ public abstract class EnemyScript : MonoBehaviour
     }
     void Update()
     {
-        fireRateTimer -= Time.deltaTime;
-        FireEnemyBullet();
+        if (fireRateTimer <= 0)
+        {
+            FireEnemyBullet();
+            fireRateTimer = fireRate;
+
+        }
+        else if (fireRateTimer > 0) 
+        {
+            fireRateTimer -= Time.deltaTime;
+        }
+        
     }
 
+   
     public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
     {
         Shooter projectile = collision.gameObject.GetComponent<Shooter>(); // kogel 
@@ -86,7 +96,6 @@ public abstract class EnemyScript : MonoBehaviour
         if (EnemyBullet != null && EnemyBulletSpawnPoint != null)
         {
             Instantiate(EnemyBullet, EnemyBulletSpawnPoint.transform.position, EnemyBullet.transform.rotation);
-            fireRate = fireRateTimer;
         }
     }
 
