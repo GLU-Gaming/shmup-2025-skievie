@@ -996,7 +996,7 @@ PrefabInstance:
     - target: {fileID: 1958576012009517483, guid: b92382c4683e2b244969856f5b70b362, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 4493585093827132993, guid: c728c74a753942f49b18766a0a4b384a, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 2434117641393878197, guid: b92382c4683e2b244969856f5b70b362, type: 3}
       propertyPath: shootCooldownTimer
       value: 0
