@@ -14,6 +14,7 @@ public class GameManagement : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
 
     public float lifeAmount = 3;
+    public float playerHP = 100;
 
     public PlaneScrip PlanePlayerScript;
     public EnemyScript ScriptForEnemy;
@@ -139,5 +140,14 @@ public class GameManagement : MonoBehaviour
         scoreText.text = "Score: " + score;
     }
 
+    public void TakeDamageFromEnemy(int damage)
+    {
+        playerHP -= damage;
+
+        if (playerHP <= 0)
+        {
+            lifeAmount -= 1;
+        }
+    }
 
 }

@@ -12,6 +12,9 @@ public abstract class EnemyScript : MonoBehaviour
 
     public int HPamount;
 
+    public float fireRate = 0.5f;
+    public float fireDamage = 17;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -49,7 +52,9 @@ public abstract class EnemyScript : MonoBehaviour
 
        
         HPamount -= 1;
+        Destroy(projectile);
         collision.transform.position = new Vector3(-6 , 0 , 12);
+        
     }
 
     public void EnemyHPdown()
