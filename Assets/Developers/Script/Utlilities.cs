@@ -8,13 +8,18 @@ public class Utlilities : MonoBehaviour
         SceneManager.LoadScene("EndGameScreen");
     }
 
-    public void GoToGame()
+    public void GoToPayamTestGame()
     {
         SceneManager.LoadScene("DevTestScene");
     }
 
-    public void GoToEndMenu()
+    public void GoToStartScreen()
     {
         SceneManager.LoadScene("EndGameScreen");
+    }
+
+    public void GoToMichaelTestGame()
+    {
+        SceneManager.LoadScene("MichaelDevSceneTest");
     }
 }
