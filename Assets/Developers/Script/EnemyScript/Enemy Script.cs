@@ -15,6 +15,9 @@ public abstract class EnemyScript : MonoBehaviour
     public float fireRate = 0.5f;
     public float fireDamage = 17;
 
+    [SerializeField] private GameObject EnemyBullet;
+    [SerializeField] private GameObject EnemyBulletSpawnPoint;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -24,37 +27,38 @@ public abstract class EnemyScript : MonoBehaviour
     }
     void Update()
     {
-        
+
     }
 
     public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
     {
         Shooter projectile = collision.gameObject.GetComponent<Shooter>(); // kogel 
         PlaneScrip player = collision.gameObject.GetComponent<PlaneScrip>(); // speler
+
+        HPamount -= 1;
+
         if (projectile != null)
         {
+            Destroy(collision.gameObject);
+
             if (HPamount == 0)
             {
                 game.AddScore(scoreAmount);
                 game.RemoveEnemy(gameObject); // verwijst naar de functie van gamemanager
-                Destroy(collision.gameObject);
-                Destroy(gameObject);
             }
             else { }
-            
+
         }
 
         if (player != null)
         {
             game.RemoveEnemy(gameObject);
             game.ReportPlayerHit();
+            collision.transform.position = new Vector3(-6, 0, 12);
         }
 
-       
-        HPamount -= 1;
-        Destroy(projectile);
-        collision.transform.position = new Vector3(-6 , 0 , 12);
-        
+
+
     }
 
     public void EnemyHPdown()
@@ -70,7 +74,16 @@ public abstract class EnemyScript : MonoBehaviour
 
     public virtual void Activate()
     {
-        
+
     }
+
+    //public void FireEnemyBullet()
+    //{
+    //    if (laserKogel != null && bulletSpawnPointTest != null)
+    //    {
+    //        Instantiate(laserKogel, bulletSpawnPointTest.transform.position, laserKogel.transform.rotation);
+    //        shootCooldownTimer = 1f;
+    //    }
+    //}
 
 }

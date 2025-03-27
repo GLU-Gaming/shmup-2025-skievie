@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5035735185811497865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8458791262486823454}
+  m_Layer: 7
+  m_Name: BigEnemyFirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8458791262486823454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5035735185811497865}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8655811111692001466}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &9193297254314313553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,7 +113,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2ea02df3bf693004bab390efad149aed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8458791262486823454}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2ea02df3bf693004bab390efad149aed, type: 3}
       insertIndex: -1
@@ -124,7 +158,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 56
   m_CollisionDetection: 0
 --- !u!135 &652842235825506988
 SphereCollider:
@@ -164,3 +198,12 @@ MonoBehaviour:
   game: {fileID: 0}
   scoreAmount: 35
   HPamount: 6
+  fireRate: 0.5
+  fireDamage: 17
+  EnemyBullet: {fileID: 2374661330202201196, guid: 00645fa631b515c4bb6c80da9a519153, type: 3}
+  EnemyBulletSpawnPoint: {fileID: 5035735185811497865}
+--- !u!4 &8655811111692001466 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2ea02df3bf693004bab390efad149aed, type: 3}
+  m_PrefabInstance: {fileID: 9193297254314313553}
+  m_PrefabAsset: {fileID: 0}
