@@ -28,44 +28,50 @@ public class PlaneScrip : MonoBehaviour
         rb = GetComponent<Rigidbody>(); // object ophalen
     }
 
-
     private void Update()
     {
-        shootCooldownTimer -= Time.deltaTime; // aftellen
+        shootCooldownTimer -= Time.deltaTime;
 
-        if (isDashing)
+        if (isDashing) return;
+
+        Vector3 moveDirection = Vector3.zero;
+        float tiltAngle = 10f; // hoeveel graden plane draait
+        float tiltAngleX = 10f;
+
+        if (Input.GetKey(KeyCode.W))
         {
-            return;
+            moveDirection += transform.forward * moveSpeed;
+          
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            moveDirection -= transform.forward * moveSpeed;
+          
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            moveDirection -= transform.right * moveSpeed;
+            transform.rotation = Quaternion.Euler(-90 + tiltAngle, -90, tiltAngleX + 90); // Links
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            moveDirection += transform.right * moveSpeed;
+            transform.rotation = Quaternion.Euler(-90 + -tiltAngle, -90, tiltAngleX + 90); // Rechts
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(-90, 0, 0); // Reset rotation when not turning
         }
 
+        rb.linearVelocity = moveDirection;
 
-        if (Input.GetKey(KeyCode.W)) // controls W
-        {
-            rb.linearVelocity = transform.forward * moveSpeed;
-        }
-        else if (Input.GetKey(KeyCode.S)) // controls S
-        {
-            rb.linearVelocity = -transform.forward * moveSpeed;
-        }
-        else if (Input.GetKey(KeyCode.A)) // controls A
-        {
-            rb.linearVelocity = -transform.right * moveSpeed;
-        }
-        else if (Input.GetKey(KeyCode.D)) // controls D
-        {
-            rb.linearVelocity = transform.right * moveSpeed;
-        }
-        else // stopt bewegen
-        {
-            rb.linearVelocity = Vector3.zero;
-        }
-
-        if (shootCooldownTimer > 0) // aftellen
+        // Schieten
+        if (shootCooldownTimer > 0)
         {
             shootCooldownTimer -= Time.fixedDeltaTime;
         }
 
-        if (Input.GetKey(KeyCode.Space) && shootCooldownTimer <= 0) // kogel afvuren
+        if (Input.GetKey(KeyCode.Space) && shootCooldownTimer <= 0)
         {
             if (laserKogel != null && bulletSpawnPointTest != null)
             {
@@ -74,12 +80,10 @@ public class PlaneScrip : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.LeftShift) && canDash) // dash gebruiken knop
+        if (Input.GetKey(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
         }
-
-
     }
 
     private void FixedUpdate()
@@ -88,9 +92,6 @@ public class PlaneScrip : MonoBehaviour
         {
             return;
         }
-
-
-
     }
 
     private IEnumerator Dash()
@@ -98,8 +99,8 @@ public class PlaneScrip : MonoBehaviour
         canDash = false; // activeert
         isDashing = true; // voert het uit
         rb.useGravity = false;
-        Vector3 dashDirection = rb.transform.position * dashingPower;
-        rb.AddForce(dashDirection, ForceMode.VelocityChange); // vliegt / word gebruikt
+        Vector3 dashDirection = rb.linearVelocity.normalized * dashingPower;
+        rb.linearVelocity = dashDirection; // vliegt / word gebruikt
         TR.emitting = true;
         yield return new WaitForSeconds(dashingTime);
         TR.emitting = false;
@@ -107,20 +108,5 @@ public class PlaneScrip : MonoBehaviour
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true; // kan weer dashen
-
     }
-
-    public void OnCollisionEnter(Collision collision)
-    {
-        game.ReportPlayerHit();
-        ResetPlayer();
-    }
-
-    private void ResetPlayer()
-    {
-        transform.position = new Vector3(-6, 0, 12);
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-    }
-
 }

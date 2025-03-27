@@ -14,8 +14,10 @@ public class GameManagement : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
 
     public float lifeAmount = 3;
+    public float playerHP = 100;
 
     public PlaneScrip PlanePlayerScript;
+    public EnemyScript ScriptForEnemy;
 
     [SerializeField] private TextMeshProUGUI scoreText;
 
@@ -54,7 +56,7 @@ public class GameManagement : MonoBehaviour
     {
         Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-6, 6), 12);
 
-        if (AsteroidPlayerOverlap(spawnpoint, 1))
+        if (EnemyPlayerOverlap(spawnpoint, 1))
         {
             GameObject go = Instantiate(Enemies[Random.Range(0, Enemies.Length)], spawnpoint, transform.rotation);
             spawnedEnemies.Add(go);
@@ -62,7 +64,6 @@ public class GameManagement : MonoBehaviour
     }
     public void RemoveEnemy(GameObject enemiesToRemove) // verwijderen van enemy
     {
-        
         spawnedEnemies.Remove(enemiesToRemove);
         Destroy(enemiesToRemove);
 
@@ -73,12 +74,12 @@ public class GameManagement : MonoBehaviour
 
     }
 
-    public bool AsteroidPlayerOverlap(Vector3 center, float radius)
+    public bool EnemyPlayerOverlap(Vector3 center, float radius)
     {
         bool freeSpace = false;
 
-        Collider[] Asteroids = Physics.OverlapSphere(Vector3.zero, radius, enemyLayer.value);
-        if (Asteroids.Length == 0)
+        Collider[] Enemies = Physics.OverlapSphere(Vector3.zero, radius, enemyLayer.value);
+        if (Enemies.Length == 0)
         {
             freeSpace = true;
         }
@@ -91,47 +92,20 @@ public class GameManagement : MonoBehaviour
     public void ReportPlayerHit()
     {
 
-
-        if (lifeAmount > 2)
-        {
-            ResetPlayer();
+        
+       if (lifeAmount == 0)
+       {
             
-        }
-        else if (lifeAmount > 1)
-        {
-            
-            ResetPlayer();
-        }
-        else if (lifeAmount == 1)
-        {
-            
-            SceneManager.LoadScene("GameOverScreen");
-        }
+            SceneManager.LoadScene("EndGameScreen");
+       }
         else
-        {
-
-            ResetPlayer();
-            
-        }
 
         lifeAmount -= 1;
 
 
     }
 
-    private void ResetPlayer()
-    {
 
-        transform.position = Vector3.zero;
-        PlaneScrip player = FindFirstObjectByType<PlaneScrip>();
-
-        Rigidbody rb = player.GetComponent<Rigidbody>();
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-
-        player.transform.position = Vector3.zero;
-        player.transform.eulerAngles = Vector3.left * 90;
-    }
 
     public void AddScore(int amount)
     {
@@ -166,5 +140,14 @@ public class GameManagement : MonoBehaviour
         scoreText.text = "Score: " + score;
     }
 
+    public void TakeDamageFromEnemy(int damage)
+    {
+        playerHP -= damage;
+
+        if (playerHP <= 0)
+        {
+            lifeAmount -= 1;
+        }
+    }
 
 }
