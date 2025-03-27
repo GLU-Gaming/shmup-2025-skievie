@@ -6,18 +6,16 @@ public abstract class EnemyScript : MonoBehaviour
     [SerializeField] private GameObject EnemyTest;
     [SerializeField] private float moveSpeed = 8;
 
-    private float lessHP = 1;
-
     public GameManagement game; // script aan script 
 
     [SerializeField] int scoreAmount;
 
-    [SerializeField] private EnemyScript enemyScript;
+    public int HPamount;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Force); // movement van enemy
+        rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration); // movement van enemy
 
         game = FindAnyObjectByType<GameManagement>();
     }
@@ -32,10 +30,15 @@ public abstract class EnemyScript : MonoBehaviour
         PlaneScrip player = collision.gameObject.GetComponent<PlaneScrip>(); // speler
         if (projectile != null)
         {
-            game.AddScore(scoreAmount);
-            game.RemoveEnemy(gameObject); // verwijst naar de functie van gamemanager
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            if (HPamount == 0)
+            {
+                game.AddScore(scoreAmount);
+                game.RemoveEnemy(gameObject); // verwijst naar de functie van gamemanager
+                Destroy(collision.gameObject);
+                Destroy(gameObject);
+            }
+            else { }
+            
         }
 
         if (player != null)
@@ -43,17 +46,21 @@ public abstract class EnemyScript : MonoBehaviour
             game.RemoveEnemy(gameObject);
             game.ReportPlayerHit();
         }
+
+       
+        HPamount -= 1;
+        collision.transform.position = new Vector3(-6 , 0 , 12);
     }
 
-    public void EnemyHPdown(int HPamount)
+    public void EnemyHPdown()
     {
         if (HPamount == 0)
         {
-            Destroy(gameObject);
+            game.RemoveEnemy(gameObject);
         }
 
 
-        lessHP -= 1;
+        HPamount -= 1;
     }
 
     public virtual void Activate()

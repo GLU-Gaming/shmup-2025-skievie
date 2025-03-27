@@ -16,6 +16,7 @@ public class GameManagement : MonoBehaviour
     public float lifeAmount = 3;
 
     public PlaneScrip PlanePlayerScript;
+    public EnemyScript ScriptForEnemy;
 
     [SerializeField] private TextMeshProUGUI scoreText;
 
@@ -62,7 +63,6 @@ public class GameManagement : MonoBehaviour
     }
     public void RemoveEnemy(GameObject enemiesToRemove) // verwijderen van enemy
     {
-        
         spawnedEnemies.Remove(enemiesToRemove);
         Destroy(enemiesToRemove);
 
@@ -91,8 +91,8 @@ public class GameManagement : MonoBehaviour
     public void ReportPlayerHit()
     {
 
-
-       if (lifeAmount == 1)
+        
+       if (lifeAmount == 0)
        {
             
             SceneManager.LoadScene("EndGameScreen");
