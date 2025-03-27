@@ -12,7 +12,8 @@ public abstract class EnemyScript : MonoBehaviour
 
     public int HPamount;
 
-    public float fireRate = 0.5f;
+    public float fireRate;
+    public float fireRateTimer = 0.5f;
     public float fireDamage = 17;
 
     [SerializeField] private GameObject EnemyBullet;
@@ -24,10 +25,13 @@ public abstract class EnemyScript : MonoBehaviour
         rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration); // movement van enemy
 
         game = FindAnyObjectByType<GameManagement>();
+
+        
     }
     void Update()
     {
-
+        fireRateTimer -= Time.deltaTime;
+        FireEnemyBullet();
     }
 
     public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
@@ -77,13 +81,13 @@ public abstract class EnemyScript : MonoBehaviour
 
     }
 
-    //public void FireEnemyBullet()
-    //{
-    //    if (laserKogel != null && bulletSpawnPointTest != null)
-    //    {
-    //        Instantiate(laserKogel, bulletSpawnPointTest.transform.position, laserKogel.transform.rotation);
-    //        shootCooldownTimer = 1f;
-    //    }
-    //}
+    public void FireEnemyBullet()
+    {
+        if (EnemyBullet != null && EnemyBulletSpawnPoint != null)
+        {
+            Instantiate(EnemyBullet, EnemyBulletSpawnPoint.transform.position, EnemyBullet.transform.rotation);
+            fireRate = fireRateTimer;
+        }
+    }
 
 }
