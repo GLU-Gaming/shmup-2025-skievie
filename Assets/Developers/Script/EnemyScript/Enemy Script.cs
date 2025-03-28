@@ -10,7 +10,7 @@ public abstract class EnemyScript : MonoBehaviour
 
     [SerializeField] int scoreAmount;
 
-    public int HPamount;
+    public int HPamount; // enemy HP
 
     public float fireRate;
     public float fireRateTimer = 0.5f;
@@ -48,6 +48,7 @@ public abstract class EnemyScript : MonoBehaviour
     {
         Shooter projectile = collision.gameObject.GetComponent<Shooter>(); // kogel 
         PlaneScrip player = collision.gameObject.GetComponent<PlaneScrip>(); // speler
+        EnemyShooter enemyShoot = collision.gameObject.GetComponent<EnemyShooter>(); // enemy kogel
 
         HPamount -= 1;
 
@@ -60,7 +61,7 @@ public abstract class EnemyScript : MonoBehaviour
                 game.AddScore(scoreAmount);
                 game.RemoveEnemy(gameObject); // verwijst naar de functie van gamemanager
             }
-            else { }
+            
 
         }
 
@@ -71,7 +72,12 @@ public abstract class EnemyScript : MonoBehaviour
             collision.transform.position = new Vector3(-6, 0, 12);
         }
 
-
+        if (enemyShoot != null)
+        {
+            Destroy(enemyShoot);
+            game.ReportPlayerHit();
+            collision.transform.position = new Vector3(-6, 0, 12);
+        }
 
     }
 
