@@ -4,7 +4,7 @@ public abstract class EnemyScript : MonoBehaviour
 {
     private Rigidbody rb;
     [SerializeField] private GameObject EnemyTest;
-    //[SerializeField] private float moveSpeed = 8;
+    [SerializeField] private float moveSpeed = 8;
 
     public GameManagement game; // script aan script 
 
@@ -22,7 +22,7 @@ public abstract class EnemyScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        //rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration); // movement van enemy+
+        rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration); // movement van enemy+
 
 
 
@@ -48,7 +48,7 @@ public abstract class EnemyScript : MonoBehaviour
    
     public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
     {
-        if (collision.gameObject.CompareTag("Bullet") == true)
+        if (collision.gameObject.CompareTag("Bullet") == true) // delete de bullet etc dat
         {
             EnemyHPdown();
             Destroy(collision.gameObject);
@@ -56,7 +56,7 @@ public abstract class EnemyScript : MonoBehaviour
         }
     }
 
-    public void EnemyHPdown()
+    public void EnemyHPdown() // spreekt voorzich
     {
         HPamount -= 1;
         if (HPamount == 0)
@@ -71,7 +71,7 @@ public abstract class EnemyScript : MonoBehaviour
 
     }
 
-    public void FireEnemyBullet()
+    public void FireEnemyBullet() // fire bullet
     {
         if (EnemyBullet != null && EnemyBulletSpawnPoint != null)
         {
