@@ -60,7 +60,7 @@ public class PlaneScrip : MonoBehaviour
         }
         else
         {
-            transform.rotation = Quaternion.Euler(-90, 0, 0); // Reset rotation when not turning
+            transform.rotation = Quaternion.Euler(0, 0, 90); // Reset rotation when not turning
         }
 
         rb.linearVelocity = moveDirection;
