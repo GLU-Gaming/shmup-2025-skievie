@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class BigEnemy : EnemyScript
 {
-    //[SerializeField] private float moveSpeed = 8;
-    //private Rigidbody rbBig;
+    [SerializeField] private float moveSpeedBig = 8;
+    private Rigidbody rbBig;
 
-    //private void Start()
-    //{
-    //    rbBig.AddForce(new Vector3(-transform.position.x + -90, 0, 90) * moveSpeed, ForceMode.Acceleration);
-    //}
+    private void Start()
+    {
+        transform.rotation = Quaternion.Euler(-90, 0, 90);                                            
+        rbBig.AddForce(new Vector3(-transform.position.x + -90, 0, 90) * moveSpeedBig, ForceMode.Acceleration);
+    }
     public override void Activate()
     {
         game.TakeDamageFromEnemy(25);

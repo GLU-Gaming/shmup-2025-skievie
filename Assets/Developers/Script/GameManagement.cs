@@ -54,7 +54,7 @@ public class GameManagement : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-6, 6), 12);
+        Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-5, 5), 12);
 
         if (EnemyPlayerOverlap(spawnpoint, 1))
         {

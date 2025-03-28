@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class MiddleEnemy : EnemyScript
 {
-    //[SerializeField] private float moveSpeed = 8;
-    //private Rigidbody rbMiddle;
+    [SerializeField] private float moveSpeedMiddle = 8;
+    private Rigidbody rbMiddle;
 
-    //private void Start()
-    //{
-    //    rbMiddle.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration);
-    //}
+    private void Start()
+    {
+        transform.rotation = Quaternion.Euler(90, 0, 0);
+        rbMiddle.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeedMiddle, ForceMode.Acceleration);
+    }
     public override void Activate()
     {
         game.TakeDamageFromEnemy(17);

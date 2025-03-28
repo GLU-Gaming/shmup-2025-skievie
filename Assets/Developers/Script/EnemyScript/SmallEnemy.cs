@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class SmallEnemy : EnemyScript
 {
-    //[SerializeField] private float moveSpeed = 8;
-    //private Rigidbody rbSmall;
+    [SerializeField] private float moveSpeedSmall = 8;
+    private Rigidbody rbSmall;
 
-    //private void Start()
-    //{
-    //    rbSmall.AddForce(new Vector3(-transform.position.x + -90, 180, 0) * moveSpeed, ForceMode.Acceleration);
-    //}
+    private void Start()
+    {
+        transform.rotation = Quaternion.Euler(-90, 180, 0);
+        rbSmall.AddForce(new Vector3(-transform.position.x + -90, 0, 0) * moveSpeedSmall, ForceMode.Acceleration);
+    }
     public override void Activate()
     {
         game.TakeDamageFromEnemy(10);
