@@ -57,7 +57,7 @@ public class PlaneScript : MonoBehaviour
         moveDirection += Vector3.right * horizontalInput * moveSpeed;
         moveDirection += Vector3.up * verticalInput * verticalMoveSpeed;
 
-        rb.velocity = moveDirection;
+        rb.linearVelocity = moveDirection;
 
         float targetTiltY = horizontalInput * tiltAngle;  
         float targetTiltX = -verticalInput * tiltAngle * 0.5f;  
@@ -95,13 +95,13 @@ public class PlaneScript : MonoBehaviour
         isDashing = true;
         rb.useGravity = false;
 
-        Vector3 dashDirection = rb.velocity.normalized;
+        Vector3 dashDirection = rb.linearVelocity.normalized;
         if (dashDirection == Vector3.zero)
         {
             dashDirection = Vector3.right;
         }
 
-        rb.velocity = dashDirection * dashingPower;
+        rb.linearVelocity = dashDirection * dashingPower;
         TR.emitting = true;
 
         yield return new WaitForSeconds(dashingTime);
