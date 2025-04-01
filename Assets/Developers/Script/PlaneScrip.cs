@@ -1,124 +1,125 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlaneScrip : MonoBehaviour
+public class PlaneScript : MonoBehaviour
 {
-    private Rigidbody rb; // rigidbody Player
+    private Rigidbody rb;
 
     [SerializeField] private GameObject laserKogel;
     [SerializeField] private GameObject bulletSpawnPointTest;
 
     public float shootCooldownTimer = 0f;
-    public float shootCooldownDuration = 10f;
+    public float shootCooldownDuration = 0.2f;
+    public float moveSpeed = 6f;
+    public float verticalMoveSpeed = 3f;
 
-    public float moveSpeed = 3f; // In game is ie op 6 trouwens
+    public GameManagement game;
 
-    public GameManagement game; // script aan script 
-
+    // Dash variables
     private bool canDash = true;
     private bool isDashing;
-    private float dashingPower = 4f;
+    private float dashingPower = 10f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 1f;
 
     [SerializeField] private TrailRenderer TR;
 
+    // Animation variables
+    private float tiltAngle = 40f;
+    private float currentTiltY = 0f; // For Y-axis rotation (A/D keys)
+    private float currentTiltZ = 0f; // For Z-axis rotation (W/S keys)
+    private float tiltSmoothness = 20f;
+    private float defaultRotationZ = 90f;
+
     private void Start()
     {
-        rb = GetComponent<Rigidbody>(); // object ophalen
+        rb = GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeRotationX; // Only freeze X rotation if needed
+        transform.rotation = Quaternion.Euler(0f, 0f, defaultRotationZ);
     }
 
     private void Update()
     {
-        shootCooldownTimer -= Time.deltaTime;
-
         if (isDashing) return;
 
+        HandleMovement();
+        HandleShooting();
+        HandleDash();
+    }
+
+    private void HandleMovement()
+    {
         Vector3 moveDirection = Vector3.zero;
-        float tiltAngle = 10f; // hoeveel graden plane draait
-        float tiltAngleX = 10f;
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            moveDirection += transform.forward * moveSpeed;
-          
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            moveDirection -= transform.forward * moveSpeed;
-          
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            moveDirection -= transform.right * moveSpeed;
-            transform.rotation = Quaternion.Euler(-90 + tiltAngle, -90, tiltAngleX + 90); // Links
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            moveDirection += transform.right * moveSpeed;
-            transform.rotation = Quaternion.Euler(-90 + -tiltAngle, -90, tiltAngleX + 90); // Rechts
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 90); // Reset rotation when not turning
-        }
+        float horizontalInput = Input.GetKey(KeyCode.D) ? 1f : (Input.GetKey(KeyCode.A) ? -1f : 0f);
+        float verticalInput = Input.GetKey(KeyCode.W) ? 2f : (Input.GetKey(KeyCode.S) ? -2f : 0f);
 
-        rb.linearVelocity = moveDirection;
+        moveDirection += Vector3.right * horizontalInput * moveSpeed;
+        moveDirection += Vector3.up * verticalInput * verticalMoveSpeed;
 
-        // Schieten
-        if (shootCooldownTimer > 0)
-        {
-            shootCooldownTimer -= Time.fixedDeltaTime;
-        }
+        rb.velocity = moveDirection;
+
+        float targetTiltY = horizontalInput * tiltAngle;  
+        float targetTiltX = -verticalInput * tiltAngle * 0.5f;  
+
+        currentTiltY = Mathf.Lerp(currentTiltY, -targetTiltY, tiltSmoothness * Time.deltaTime);
+
+        transform.rotation = Quaternion.Euler(targetTiltX, currentTiltY, defaultRotationZ);
+    }
+
+    private void HandleShooting()
+    {
+        shootCooldownTimer -= Time.deltaTime;
 
         if (Input.GetKey(KeyCode.Space) && shootCooldownTimer <= 0)
         {
             if (laserKogel != null && bulletSpawnPointTest != null)
             {
-                Instantiate(laserKogel, bulletSpawnPointTest.transform.position, laserKogel.transform.rotation);
-                shootCooldownTimer = 1f;
+                Instantiate(laserKogel, bulletSpawnPointTest.transform.position, transform.rotation);
+                shootCooldownTimer = shootCooldownDuration;
             }
         }
+    }
 
+    private void HandleDash()
+    {
         if (Input.GetKey(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (isDashing)
-        {
-            return;
-        }
-    }
-
-    public void OnCollisionEnter(Collision collision) // collide om de player te verwijderen, geldt ook voor de kogel 
-    {
-        if (collision.gameObject.CompareTag("EnemyBullet") == true)
-        {
-            game.ReportPlayerHit();
-            Destroy(collision.gameObject);
-            collision.transform.position = new Vector3(-6, 0, 12);
-        }
-    }
-
     private IEnumerator Dash()
     {
-        canDash = false; // activeert
-        isDashing = true; // voert het uit
+        canDash = false;
+        isDashing = true;
         rb.useGravity = false;
-        Vector3 dashDirection = rb.linearVelocity.normalized * dashingPower;
-        rb.linearVelocity = dashDirection; // vliegt / word gebruikt
+
+        Vector3 dashDirection = rb.velocity.normalized;
+        if (dashDirection == Vector3.zero)
+        {
+            dashDirection = Vector3.right;
+        }
+
+        rb.velocity = dashDirection * dashingPower;
         TR.emitting = true;
+
         yield return new WaitForSeconds(dashingTime);
+
         TR.emitting = false;
         rb.useGravity = true;
         isDashing = false;
+
         yield return new WaitForSeconds(dashingCooldown);
-        canDash = true; // kan weer dashen
+        canDash = true;
     }
 
-
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            game.ReportPlayerHit();
+            Destroy(collision.gameObject);
+        }
+    }
 }

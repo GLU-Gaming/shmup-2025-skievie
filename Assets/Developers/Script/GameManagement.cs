@@ -16,7 +16,7 @@ public class GameManagement : MonoBehaviour
     public float lifeAmount = 3;
     public float playerHP = 100;
 
-    public PlaneScrip PlanePlayerScript;
+    public PlaneScript PlanePlayerScript;
     public EnemyScript ScriptForEnemy;
 
     [SerializeField] private TextMeshProUGUI scoreText;
