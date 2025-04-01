@@ -60,7 +60,7 @@ public class PlaneScrip : MonoBehaviour
         }
         else
         {
-            transform.rotation = Quaternion.Euler(-90, 0, 0); // Reset rotation when not turning
+            transform.rotation = Quaternion.Euler(0, 0, 90); // Reset rotation when not turning
         }
 
         rb.linearVelocity = moveDirection;
@@ -94,6 +94,16 @@ public class PlaneScrip : MonoBehaviour
         }
     }
 
+    public void OnCollisionEnter(Collision collision) // collide om de player te verwijderen, geldt ook voor de kogel 
+    {
+        if (collision.gameObject.CompareTag("EnemyBullet") == true)
+        {
+            game.ReportPlayerHit();
+            Destroy(collision.gameObject);
+            collision.transform.position = new Vector3(-6, 0, 12);
+        }
+    }
+
     private IEnumerator Dash()
     {
         canDash = false; // activeert
@@ -109,4 +119,6 @@ public class PlaneScrip : MonoBehaviour
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true; // kan weer dashen
     }
+
+
 }

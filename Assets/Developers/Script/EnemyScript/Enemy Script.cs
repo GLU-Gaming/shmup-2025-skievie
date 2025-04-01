@@ -10,7 +10,7 @@ public abstract class EnemyScript : MonoBehaviour
 
     [SerializeField] int scoreAmount;
 
-    public int HPamount;
+    public int HPamount; // enemy HP
 
     public float fireRate;
     public float fireRateTimer = 0.5f;
@@ -22,7 +22,9 @@ public abstract class EnemyScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration); // movement van enemy
+        rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration); // movement van enemy+
+
+
 
         game = FindAnyObjectByType<GameManagement>();
 
@@ -46,44 +48,22 @@ public abstract class EnemyScript : MonoBehaviour
    
     public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
     {
-        Shooter projectile = collision.gameObject.GetComponent<Shooter>(); // kogel 
-        PlaneScrip player = collision.gameObject.GetComponent<PlaneScrip>(); // speler
-
-        HPamount -= 1;
-
-        if (projectile != null)
+        if (collision.gameObject.CompareTag("Bullet") == true) // delete de bullet etc dat
         {
+            EnemyHPdown();
             Destroy(collision.gameObject);
 
-            if (HPamount == 0)
-            {
-                game.AddScore(scoreAmount);
-                game.RemoveEnemy(gameObject); // verwijst naar de functie van gamemanager
-            }
-            else { }
-
         }
-
-        if (player != null)
-        {
-            game.RemoveEnemy(gameObject);
-            game.ReportPlayerHit();
-            collision.transform.position = new Vector3(-6, 0, 12);
-        }
-
-
-
     }
 
-    public void EnemyHPdown()
+    public void EnemyHPdown() // spreekt voorzich
     {
+        HPamount -= 1;
         if (HPamount == 0)
         {
+            game.AddScore(scoreAmount);
             game.RemoveEnemy(gameObject);
         }
-
-
-        HPamount -= 1;
     }
 
     public virtual void Activate()
@@ -91,7 +71,7 @@ public abstract class EnemyScript : MonoBehaviour
 
     }
 
-    public void FireEnemyBullet()
+    public void FireEnemyBullet() // fire bullet
     {
         if (EnemyBullet != null && EnemyBulletSpawnPoint != null)
         {

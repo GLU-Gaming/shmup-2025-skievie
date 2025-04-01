@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 489805183635170904}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.01, y: 0, z: 0}
+  m_LocalPosition: {x: -0.0006, y: 0.0291, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -62,7 +62,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100.00003, z: 100.00003}
+  m_LocalScale: {x: 60, y: 60, z: 60}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8326934772577113120}
@@ -75,7 +75,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7229147988399146015}
-  m_Mesh: {fileID: 4711208715938537054, guid: 2ea02df3bf693004bab390efad149aed, type: 3}
+  m_Mesh: {fileID: 8691780276856062721, guid: 57e9be7af294a6b4ab592fa4bcf68ea7, type: 3}
 --- !u!23 &1791555569339590603
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -182,12 +182,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyTest: {fileID: 7229147988399146015}
-  moveSpeed: 8
   game: {fileID: 0}
   scoreAmount: 25
   HPamount: 4
   fireRate: 0.75
   fireRateTimer: 0.75
   fireDamage: 17
-  EnemyBullet: {fileID: 2374661330202201196, guid: 00645fa631b515c4bb6c80da9a519153, type: 3}
+  EnemyBullet: {fileID: 8851497656675183120, guid: eb6703e1a117d5744b95b5c6488ab37c, type: 3}
   EnemyBulletSpawnPoint: {fileID: 489805183635170904}
+  moveSpeedMiddle: 8
