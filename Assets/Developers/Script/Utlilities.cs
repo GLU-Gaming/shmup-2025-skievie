@@ -22,4 +22,11 @@ public class Utlilities : MonoBehaviour
     {
         SceneManager.LoadScene("MichaelDevSceneTest");
     }
+
+    public void CloseGame()
+    {
+        Application.Quit();
+    }
+
+
 }
