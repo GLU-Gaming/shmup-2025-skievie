@@ -182,12 +182,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyTest: {fileID: 7229147988399146015}
+  moveSpeed: 8
   game: {fileID: 0}
   scoreAmount: 25
   HPamount: 4
-  fireRate: 0.75
-  fireRateTimer: 0.75
+  fireRate: 1
+  fireRateTimer: 1
   fireDamage: 17
   EnemyBullet: {fileID: 8851497656675183120, guid: eb6703e1a117d5744b95b5c6488ab37c, type: 3}
   EnemyBulletSpawnPoint: {fileID: 489805183635170904}
-  moveSpeedMiddle: 8
