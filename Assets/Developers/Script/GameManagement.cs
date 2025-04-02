@@ -118,6 +118,11 @@ public class GameManagement : MonoBehaviour
             highScore = score;
             SaveHighScore();
         }
+
+        if (score == 1000)
+        {
+            SceneManager.LoadScene("Bossfightscene");
+        }
     }
 
     public void SaveScore()
@@ -133,6 +138,11 @@ public class GameManagement : MonoBehaviour
     public void LoadScore()
     {
         int loadedNumber = PlayerPrefs.GetInt("myScore");
+    }
+
+    public void LoadHighscore()
+    {
+        int loadedNumber = PlayerPrefs.GetInt("myHighScore");
     }
 
     public void UpdateScoreText()
