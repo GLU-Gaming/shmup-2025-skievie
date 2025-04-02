@@ -16,7 +16,7 @@ public class GameManagement : MonoBehaviour
     public float lifeAmount = 3;
     public float playerHP = 100;
 
-    public PlaneScrip PlanePlayerScript;
+    public PlaneScript PlanePlayerScript;
     public EnemyScript ScriptForEnemy;
 
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -54,7 +54,7 @@ public class GameManagement : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-6, 6), 12);
+        Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-5, 5), 12);
 
         if (EnemyPlayerOverlap(spawnpoint, 1))
         {
@@ -118,6 +118,11 @@ public class GameManagement : MonoBehaviour
             highScore = score;
             SaveHighScore();
         }
+
+        if (score == 1000)
+        {
+            SceneManager.LoadScene("Bossfightscene");
+        }
     }
 
     public void SaveScore()
@@ -133,6 +138,11 @@ public class GameManagement : MonoBehaviour
     public void LoadScore()
     {
         int loadedNumber = PlayerPrefs.GetInt("myScore");
+    }
+
+    public void LoadHighscore()
+    {
+        int loadedNumber = PlayerPrefs.GetInt("myHighScore");
     }
 
     public void UpdateScoreText()

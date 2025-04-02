@@ -17,8 +17,4 @@ public class EnemyShooter : MonoBehaviour
     }
 
 
-    void Update()
-    {
-
-    }
 }
