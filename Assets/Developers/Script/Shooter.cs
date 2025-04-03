@@ -6,14 +6,14 @@ public class Shooter : MonoBehaviour
     [SerializeField] public float Speed = 100;
     [SerializeField] private float destroyTime = 2;
 
-    public GameManagement game; // script aan script 
+    public GameManagement game;
 
-    void Start()
+    void Start()  
     {
         rb = GetComponent<Rigidbody>();
-        rb.linearVelocity = transform.forward * Speed; // afvuur snelheid
+        rb.linearVelocity = transform.forward * Speed; 
 
-        Destroy(gameObject, destroyTime); // gaat weg na aantal seconde
+        Destroy(gameObject, destroyTime); 
     }
 
     
