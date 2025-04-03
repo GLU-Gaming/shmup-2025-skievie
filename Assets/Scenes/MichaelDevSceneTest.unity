@@ -159,7 +159,7 @@ MonoBehaviour:
     m_Bits: 0
   lifeAmount: 3
   playerHP: 100
-  PlanePlayerScript: {fileID: 0}
+  PlanePlayerScript: {fileID: 2000980325}
   ScriptForEnemy: {fileID: 0}
   scoreText: {fileID: 647710516}
   score: 0
@@ -842,6 +842,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1958576012009517483, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4493585093827132993, guid: d11b0a24502eee643b1cf57b29e961a2, type: 3}
     - target: {fileID: 2434117641393878197, guid: b92382c4683e2b244969856f5b70b362, type: 3}
       propertyPath: game
       value: 
@@ -927,6 +931,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+--- !u!114 &2000980325 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2434117641393878197, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+  m_PrefabInstance: {fileID: 2000980324}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b507a817463de545af9b2d547b1ab6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2027128498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,6 +1108,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 652842235825506988, guid: b13fa733eb7d2cb45990a1d4055cd63c, type: 3}
+      propertyPath: m_Radius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 652842235825506988, guid: b13fa733eb7d2cb45990a1d4055cd63c, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 652842235825506988, guid: b13fa733eb7d2cb45990a1d4055cd63c, type: 3}
+      propertyPath: m_Center.y
+      value: -0.010005188
+      objectReference: {fileID: 0}
     - target: {fileID: 5742166272696184607, guid: b13fa733eb7d2cb45990a1d4055cd63c, type: 3}
       propertyPath: m_Mesh
       value: 

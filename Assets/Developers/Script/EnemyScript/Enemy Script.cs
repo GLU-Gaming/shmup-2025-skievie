@@ -28,7 +28,7 @@ public abstract class EnemyScript : MonoBehaviour
 
         game = FindAnyObjectByType<GameManagement>();
 
-        
+        Destroy(gameObject, 10f);
     }
     void Update()
     {
@@ -43,6 +43,8 @@ public abstract class EnemyScript : MonoBehaviour
             fireRateTimer -= Time.deltaTime;
         }
         
+
+
     }
 
    

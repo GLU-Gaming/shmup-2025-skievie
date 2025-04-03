@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 
+//[System.Serializable]
+//public class WaveData
+//{
+//    public GameObject[] shipsToSpawn;
+//}
+
 public class GameManagement : MonoBehaviour
 {
     [SerializeField] private GameObject[] Enemies;
@@ -24,6 +30,8 @@ public class GameManagement : MonoBehaviour
     public int score;
     public int highScore;
 
+    //[SerializeField] WaveData[] waves;
+    //int currentWave;
     void Start()
     {
         StartNewRound();
@@ -56,9 +64,11 @@ public class GameManagement : MonoBehaviour
     {
         Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-5, 5), 12);
 
-        if (EnemyPlayerOverlap(spawnpoint, 1))
+        if (EnemyPlayerOverlap(spawnpoint, 3))
         {
-            GameObject go = Instantiate(Enemies[Random.Range(0, Enemies.Length)], spawnpoint, transform.rotation);
+            int RandomEnemy = Random.Range(0, Enemies.Length);
+
+            GameObject go = Instantiate(Enemies[RandomEnemy], spawnpoint, Enemies[RandomEnemy].transform.rotation);
             spawnedEnemies.Add(go);
         }
     }
@@ -78,7 +88,7 @@ public class GameManagement : MonoBehaviour
     {
         bool freeSpace = false;
 
-        Collider[] Enemies = Physics.OverlapSphere(Vector3.zero, radius, enemyLayer.value);
+        Collider[] Enemies = Physics.OverlapSphere(center, radius, enemyLayer.value);
         if (Enemies.Length == 0)
         {
             freeSpace = true;
@@ -98,7 +108,7 @@ public class GameManagement : MonoBehaviour
             
             SceneManager.LoadScene("EndGameScreen");
        }
-        else
+        
 
         lifeAmount -= 1;
 
@@ -122,6 +132,7 @@ public class GameManagement : MonoBehaviour
         if (score == 1000)
         {
             SceneManager.LoadScene("Bossfightscene");
+            LoadScore();
         }
     }
 
