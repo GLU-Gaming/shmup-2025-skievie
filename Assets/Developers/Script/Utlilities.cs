@@ -15,11 +15,18 @@ public class Utlilities : MonoBehaviour
 
     public void GoToStartScreen()
     {
-        SceneManager.LoadScene("EndGameScreen");
+        SceneManager.LoadScene("StartScreen");
     }
 
     public void GoToMichaelTestGame()
     {
         SceneManager.LoadScene("MichaelDevSceneTest");
     }
+
+    public void CloseGame()
+    {
+        Application.Quit();
+    }
+
+
 }

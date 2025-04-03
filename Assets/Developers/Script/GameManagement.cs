@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 
+//[System.Serializable]
+//public class WaveData
+//{
+//    public GameObject[] shipsToSpawn;
+//}
+
 public class GameManagement : MonoBehaviour
 {
     [SerializeField] private GameObject[] Enemies;
@@ -16,7 +22,7 @@ public class GameManagement : MonoBehaviour
     public float lifeAmount = 3;
     public float playerHP = 100;
 
-    public PlaneScrip PlanePlayerScript;
+    public PlaneScript PlanePlayerScript;
     public EnemyScript ScriptForEnemy;
 
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -24,6 +30,8 @@ public class GameManagement : MonoBehaviour
     public int score;
     public int highScore;
 
+    //[SerializeField] WaveData[] waves;
+    //int currentWave;
     void Start()
     {
         StartNewRound();
@@ -37,31 +45,56 @@ public class GameManagement : MonoBehaviour
 
     private void StartNewRound()
     {
-        while (spawnedEnemies.Count < EnemyAmount) // blijven spawnen
+
+        int maxTries = 10; 
+        int tries = 0;
+
+        while (spawnedEnemies.Count < EnemyAmount && tries < maxTries)
         {
             SpawnEnemy();
+            tries++;
+        }
+
+        if (spawnedEnemies.Count < EnemyAmount)
+        {
+            Invoke(nameof(StartNewRound), 1f); // probeer opnieuw na 1 seconde
         }
     }
 
 
     public void EnemyDied(GameObject enemy)
     {
-        spawnedEnemies.Remove(enemy); // remove hen
-        Destroy(enemy); // verwijder
+        spawnedEnemies.Remove(enemy);
+        Destroy(enemy);
 
-        SpawnEnemy(); // Spawn een enemy
+        StartNewRound(); 
     }
+
 
     private void SpawnEnemy()
     {
-        Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-5, 5), 12);
+        int maxAttempts = 10; 
+        int attempts = 0;
 
-        if (EnemyPlayerOverlap(spawnpoint, 1))
+        while (attempts < maxAttempts)
         {
-            GameObject go = Instantiate(Enemies[Random.Range(0, Enemies.Length)], spawnpoint, transform.rotation);
-            spawnedEnemies.Add(go);
+            Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-5, 5), 12);
+
+            if (EnemyPlayerOverlap(spawnpoint, 3))
+            {
+                int RandomEnemy = Random.Range(0, Enemies.Length);
+                GameObject go = Instantiate(Enemies[RandomEnemy], spawnpoint, Enemies[RandomEnemy].transform.rotation);
+                spawnedEnemies.Add(go);
+              
+                return;
+            }
+
+            attempts++;
         }
+
+        Debug.LogWarning("Failed to spawn an enemy after " + maxAttempts + " attempts.");
     }
+
     public void RemoveEnemy(GameObject enemiesToRemove) // verwijderen van enemy
     {
         spawnedEnemies.Remove(enemiesToRemove);
@@ -78,7 +111,7 @@ public class GameManagement : MonoBehaviour
     {
         bool freeSpace = false;
 
-        Collider[] Enemies = Physics.OverlapSphere(Vector3.zero, radius, enemyLayer.value);
+        Collider[] Enemies = Physics.OverlapSphere(center, radius, enemyLayer.value);
         if (Enemies.Length == 0)
         {
             freeSpace = true;
@@ -98,7 +131,7 @@ public class GameManagement : MonoBehaviour
             
             SceneManager.LoadScene("EndGameScreen");
        }
-        else
+        
 
         lifeAmount -= 1;
 
@@ -118,6 +151,12 @@ public class GameManagement : MonoBehaviour
             highScore = score;
             SaveHighScore();
         }
+
+        if (score == 1000)
+        {
+            SceneManager.LoadScene("Bossfightscene");
+            LoadScore();
+        }
     }
 
     public void SaveScore()
@@ -133,6 +172,11 @@ public class GameManagement : MonoBehaviour
     public void LoadScore()
     {
         int loadedNumber = PlayerPrefs.GetInt("myScore");
+    }
+
+    public void LoadHighscore()
+    {
+        int loadedNumber = PlayerPrefs.GetInt("myHighScore");
     }
 
     public void UpdateScoreText()

@@ -19,6 +19,8 @@ public abstract class EnemyScript : MonoBehaviour
     [SerializeField] private GameObject EnemyBullet;
     [SerializeField] private GameObject EnemyBulletSpawnPoint;
 
+    [SerializeField] private float destroyTime = 10f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -28,7 +30,7 @@ public abstract class EnemyScript : MonoBehaviour
 
         game = FindAnyObjectByType<GameManagement>();
 
-        
+        Invoke(nameof(DestroyEnemy), destroyTime);
     }
     void Update()
     {
@@ -43,9 +45,22 @@ public abstract class EnemyScript : MonoBehaviour
             fireRateTimer -= Time.deltaTime;
         }
         
+
+
     }
 
-   
+    private void DestroyEnemy()
+    {
+        if (game != null)
+        {
+            game.RemoveEnemy(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
     {
         if (collision.gameObject.CompareTag("Bullet") == true) // delete de bullet etc dat
