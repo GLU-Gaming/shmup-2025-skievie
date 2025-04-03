@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class BigEnemy : EnemyScript
 {
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     public override void Activate()
     {
         game.TakeDamageFromEnemy(25);
