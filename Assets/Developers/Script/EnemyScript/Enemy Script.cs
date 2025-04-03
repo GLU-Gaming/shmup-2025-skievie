@@ -20,16 +20,6 @@ public abstract class EnemyScript : MonoBehaviour
 
         rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration); // movement van enemy
 
-
-
-        game = FindAnyObjectByType<GameManagement>();
-
-        rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration);
-
-        game = FindObjectOfType<GameManagement>();
-        fireRateTimer = fireRate;
-
-
         Invoke(nameof(DestroyEnemy), destroyTime);
 
         game = FindAnyObjectByType<GameManagement>();
