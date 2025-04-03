@@ -45,33 +45,56 @@ public class GameManagement : MonoBehaviour
 
     private void StartNewRound()
     {
-        while (spawnedEnemies.Count < EnemyAmount) // blijven spawnen
+
+        int maxTries = 10; 
+        int tries = 0;
+
+        while (spawnedEnemies.Count < EnemyAmount && tries < maxTries)
         {
             SpawnEnemy();
+            tries++;
+        }
+
+        if (spawnedEnemies.Count < EnemyAmount)
+        {
+            Invoke(nameof(StartNewRound), 1f); // probeer opnieuw na 1 seconde
         }
     }
 
 
     public void EnemyDied(GameObject enemy)
     {
-        spawnedEnemies.Remove(enemy); // remove hen
-        Destroy(enemy); // verwijder
+        spawnedEnemies.Remove(enemy);
+        Destroy(enemy);
 
-        SpawnEnemy(); // Spawn een enemy
+        StartNewRound(); 
     }
+
 
     private void SpawnEnemy()
     {
-        Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-5, 5), 12);
+        int maxAttempts = 10; 
+        int attempts = 0;
 
-        if (EnemyPlayerOverlap(spawnpoint, 3))
+        while (attempts < maxAttempts)
         {
-            int RandomEnemy = Random.Range(0, Enemies.Length);
+            Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-5, 5), 12);
 
-            GameObject go = Instantiate(Enemies[RandomEnemy], spawnpoint, Enemies[RandomEnemy].transform.rotation);
-            spawnedEnemies.Add(go);
+            if (EnemyPlayerOverlap(spawnpoint, 3))
+            {
+                int RandomEnemy = Random.Range(0, Enemies.Length);
+                GameObject go = Instantiate(Enemies[RandomEnemy], spawnpoint, Enemies[RandomEnemy].transform.rotation);
+                spawnedEnemies.Add(go);
+              
+                return;
+            }
+
+            attempts++;
         }
+
+        Debug.LogWarning("Failed to spawn an enemy after " + maxAttempts + " attempts.");
     }
+
     public void RemoveEnemy(GameObject enemiesToRemove) // verwijderen van enemy
     {
         spawnedEnemies.Remove(enemiesToRemove);

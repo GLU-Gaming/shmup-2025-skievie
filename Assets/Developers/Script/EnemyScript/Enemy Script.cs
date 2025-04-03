@@ -30,7 +30,7 @@ public abstract class EnemyScript : MonoBehaviour
 
         game = FindAnyObjectByType<GameManagement>();
 
-        Destroy(gameObject, destroyTime);
+        Invoke(nameof(DestroyEnemy), destroyTime);
     }
     void Update()
     {
@@ -49,7 +49,18 @@ public abstract class EnemyScript : MonoBehaviour
 
     }
 
-   
+    private void DestroyEnemy()
+    {
+        if (game != null)
+        {
+            game.RemoveEnemy(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
     {
         if (collision.gameObject.CompareTag("Bullet") == true) // delete de bullet etc dat
