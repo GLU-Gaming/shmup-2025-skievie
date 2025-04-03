@@ -19,6 +19,8 @@ public abstract class EnemyScript : MonoBehaviour
     [SerializeField] private GameObject EnemyBullet;
     [SerializeField] private GameObject EnemyBulletSpawnPoint;
 
+    [SerializeField] private float destroyTime = 10f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -28,7 +30,7 @@ public abstract class EnemyScript : MonoBehaviour
 
         game = FindAnyObjectByType<GameManagement>();
 
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, destroyTime);
     }
     void Update()
     {
