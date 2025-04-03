@@ -52,10 +52,8 @@ public class PlaneScript : MonoBehaviour
         if (isDashing) return;
         HandleMovement();
         HandleDash();
-
+        UpdateRotation();
     }
-
-    
 
     private void HandleShooting()
     {
@@ -82,7 +80,7 @@ public class PlaneScript : MonoBehaviour
             ? Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime)
             : Vector3.Lerp(currentVelocity, Vector3.zero, deceleration * Time.deltaTime);
 
-        rb.linearVelocity = currentVelocity;
+        rb.velocity = currentVelocity;
 
         // Roll (tilt around Z axis when moving left/right)
         float targetRoll = -horizontalInput * maxRollAngle;
@@ -119,13 +117,13 @@ public class PlaneScript : MonoBehaviour
         isDashing = true;
         rb.useGravity = false;
 
-        Vector3 dashDirection = rb.linearVelocity.normalized;
+        Vector3 dashDirection = rb.velocity.normalized;
         if (dashDirection == Vector3.zero)
         {
             dashDirection = Vector3.right;
         }
 
-        rb.linearVelocity = dashDirection * dashingPower;
+        rb.velocity = dashDirection * dashingPower;
         TR.emitting = true;
 
         float dashTilt = dashDirection.x > 0 ? -25f : 25f;
@@ -162,7 +160,7 @@ public class PlaneScript : MonoBehaviour
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         if (bulletRb != null)
         {
-            bulletRb.linearVelocity = Vector3.right * 50f;
+            bulletRb.velocity = Vector3.right * 50f;
         }
     }
 }
