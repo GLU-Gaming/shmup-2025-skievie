@@ -52,30 +52,7 @@ public class PlaneScript : MonoBehaviour
         if (isDashing) return;
         HandleMovement();
         HandleDash();
-<<<<<<< Updated upstream
-    }
-
-    private void HandleMovement()
-    {
-        Vector3 moveDirection = Vector3.zero;
-
-        float horizontalInput = Input.GetKey(KeyCode.D) ? 1f : (Input.GetKey(KeyCode.A) ? -1f : 0f);
-        float verticalInput = Input.GetKey(KeyCode.W) ? 2f : (Input.GetKey(KeyCode.S) ? -2f : 0f);
-
-        moveDirection += Vector3.right * horizontalInput * moveSpeed;
-        moveDirection += Vector3.up * verticalInput * verticalMoveSpeed;
-
-        rb.linearVelocity = moveDirection;
-
-        float targetTiltY = horizontalInput * tiltAngle;  
-        float targetTiltX = -verticalInput * tiltAngle * 0.5f;  
-
-        currentTiltY = Mathf.Lerp(currentTiltY, -targetTiltY, tiltSmoothness * Time.deltaTime);
-
-        transform.rotation = Quaternion.Euler(targetTiltX, currentTiltY, defaultRotationZ);
-=======
         UpdateRotation();
->>>>>>> Stashed changes
     }
 
     private void HandleShooting()
@@ -140,13 +117,13 @@ public class PlaneScript : MonoBehaviour
         isDashing = true;
         rb.useGravity = false;
 
-        Vector3 dashDirection = rb.linearVelocity.normalized;
+        Vector3 dashDirection = rb.velocity.normalized;
         if (dashDirection == Vector3.zero)
         {
             dashDirection = Vector3.right;
         }
 
-        rb.linearVelocity = dashDirection * dashingPower;
+        rb.velocity = dashDirection * dashingPower;
         TR.emitting = true;
 
         float dashTilt = dashDirection.x > 0 ? -25f : 25f;

@@ -3,50 +3,35 @@ using UnityEngine;
 public abstract class EnemyScript : MonoBehaviour
 {
     private Rigidbody rb;
-    [SerializeField] private GameObject EnemyTest;
     [SerializeField] private float moveSpeed = 8;
-
-    public GameManagement game; // script aan script 
-
-    [SerializeField] int scoreAmount;
-
-    public int HPamount; // enemy HP
-
-    public float fireRate;
-    public float fireRateTimer = 0.5f;
-    public float fireDamage = 17;
-
+    [SerializeField] private int scoreAmount;
+    [SerializeField] protected int HPamount;
+    [SerializeField] protected float fireRate;
     [SerializeField] private GameObject EnemyBullet;
     [SerializeField] private GameObject EnemyBulletSpawnPoint;
-
     [SerializeField] private float destroyTime = 10f;
 
-    void Start()
+    private float fireRateTimer;
+    protected GameManagement game;
+
+    protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration); // movement van enemy+
-
-
-
-        game = FindAnyObjectByType<GameManagement>();
+        rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration);
+        game = FindObjectOfType<GameManagement>();
+        fireRateTimer = fireRate;
 
         Invoke(nameof(DestroyEnemy), destroyTime);
     }
-    void Update()
+
+    protected virtual void Update()
     {
+        fireRateTimer -= Time.deltaTime;
         if (fireRateTimer <= 0)
         {
             FireEnemyBullet();
             fireRateTimer = fireRate;
-
         }
-        else if (fireRateTimer > 0) 
-        {
-            fireRateTimer -= Time.deltaTime;
-        }
-        
-
-
     }
 
     private void DestroyEnemy()
@@ -61,37 +46,36 @@ public abstract class EnemyScript : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
+    private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Bullet") == true) // delete de bullet etc dat
+        if (collision.gameObject.CompareTag("Bullet"))
         {
-            EnemyHPdown();
+            TakeDamage(1);
             Destroy(collision.gameObject);
-
         }
     }
 
-    public void EnemyHPdown() // spreekt voorzich
+    public void TakeDamage(int damage)
     {
-        HPamount -= 1;
-        if (HPamount == 0)
+        HPamount -= damage;
+        if (HPamount <= 0)
         {
             game.AddScore(scoreAmount);
             game.RemoveEnemy(gameObject);
+            Destroy(gameObject);
         }
     }
 
     public virtual void Activate()
     {
-
+        // This method can be overridden by derived classes
     }
 
-    public void FireEnemyBullet() // fire bullet
+    private void FireEnemyBullet()
     {
         if (EnemyBullet != null && EnemyBulletSpawnPoint != null)
         {
             Instantiate(EnemyBullet, EnemyBulletSpawnPoint.transform.position, EnemyBullet.transform.rotation);
         }
     }
-
 }
