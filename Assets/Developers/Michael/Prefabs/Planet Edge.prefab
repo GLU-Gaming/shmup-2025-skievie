@@ -26,27 +26,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 58
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.20656109
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7071068
+      value: 0.20656109
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.6762637
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.6762637
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -54,12 +54,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 146.03
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f15134efd8c875a4a9600476284e0163, type: 2}
+    - target: {fileID: -5754084199372789682, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -5495902117074765545, guid: 3bcf3a41a5760ef4ab83f64e07d60091, type: 3}
     - target: {fileID: 919132149155446097, guid: c1da681087f30ed41aa687f0ba1a8351, type: 3}
       propertyPath: m_Name
       value: Planet Edge
@@ -92,4 +100,4 @@ MonoBehaviour:
   rotateX: 0
   rotateY: 0
   rotateZ: 1
-  speed: -5
+  speed: -13
