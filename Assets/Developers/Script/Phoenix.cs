@@ -6,10 +6,10 @@ public class PlaneScript : MonoBehaviour
     private Rigidbody rb;
 
     [Header("Shooting")]
-    [SerializeField] private GameObject laserKogel;
-    [SerializeField] private GameObject bulletSpawnPointTest;
-    public float shootCooldownDuration = 0.2f;
-    private float shootCooldownTimer = 0f;
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private float fireRate = 0.2f;
+    private float nextFireTime = 0f;
 
     [Header("Movement")]
     public float moveSpeed = 6f;
@@ -55,19 +55,6 @@ public class PlaneScript : MonoBehaviour
         UpdateRotation();
     }
 
-    private void HandleShooting()
-    {
-        if (Input.GetKey(KeyCode.Space) && shootCooldownTimer <= 0f)
-        {
-            Shoot();
-            shootCooldownTimer = shootCooldownDuration;
-        }
-
-        if (shootCooldownTimer > 0f)
-        {
-            shootCooldownTimer -= Time.deltaTime;
-        }
-    }
 
     private void HandleMovement()
     {
@@ -80,7 +67,7 @@ public class PlaneScript : MonoBehaviour
             ? Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime)
             : Vector3.Lerp(currentVelocity, Vector3.zero, deceleration * Time.deltaTime);
 
-        rb.velocity = currentVelocity;
+        rb.linearVelocity = currentVelocity;
 
         // Roll (tilt around Z axis when moving left/right)
         float targetRoll = -horizontalInput * maxRollAngle;
@@ -117,13 +104,13 @@ public class PlaneScript : MonoBehaviour
         isDashing = true;
         rb.useGravity = false;
 
-        Vector3 dashDirection = rb.velocity.normalized;
+        Vector3 dashDirection = rb.linearVelocity.normalized;
         if (dashDirection == Vector3.zero)
         {
             dashDirection = Vector3.right;
         }
 
-        rb.velocity = dashDirection * dashingPower;
+        rb.linearVelocity = dashDirection * dashingPower;
         TR.emitting = true;
 
         float dashTilt = dashDirection.x > 0 ? -25f : 25f;
@@ -143,24 +130,23 @@ public class PlaneScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("EnemyBullet"))
         {
-            game.ReportPlayerHit();
-            Destroy(collision.gameObject);
+            EnemyBulletScript bullet = collision.gameObject.GetComponent<EnemyBulletScript>();
+            if (bullet != null)
+            {
+                game.ReportPlayerHit(bullet.damage);
+                Destroy(collision.gameObject);
+            }
         }
     }
 
-    private void Shoot()
+    private void HandleShooting()
     {
-        if (laserKogel == null || bulletSpawnPointTest == null)
+        if (Input.GetKey(KeyCode.Space) && Time.time > nextFireTime)
         {
-            Debug.LogError("Assign bullet prefab and spawn point in the Inspector!");
-            return;
-        }
+            nextFireTime = Time.time + fireRate;
 
-        GameObject bullet = Instantiate(laserKogel, bulletSpawnPointTest.transform.position, Quaternion.identity);
-        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-        if (bulletRb != null)
-        {
-            bulletRb.velocity = Vector3.right * 50f;
+            // Force zero rotation regardless of spawn point
+              Instantiate(bulletPrefab, bulletSpawnPoint.position,Quaternion.identity); // This ensures no rotation
         }
     }
 }

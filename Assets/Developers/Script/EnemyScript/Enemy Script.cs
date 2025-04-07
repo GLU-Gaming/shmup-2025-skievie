@@ -2,58 +2,77 @@ using UnityEngine;
 
 public abstract class EnemyScript : MonoBehaviour
 {
-    private Rigidbody rb;
-    [SerializeField] private float moveSpeed = 8;
-    [SerializeField] private int scoreAmount;
-    [SerializeField] protected int HPamount;
-    [SerializeField] protected float fireRate;
-    [SerializeField] private GameObject EnemyBullet;
-    [SerializeField] private GameObject EnemyBulletSpawnPoint;
-    [SerializeField] private float destroyTime = 10f;
+    [Header("Movement Settings")]
+    [SerializeField] protected float moveSpeed = 15f; // Increased speed (adjust as needed)
+    [SerializeField] private float destroyTime = 15f; // Increased lifetime before despawning
 
-    private float fireRateTimer;
-    protected GameManagement game;
+    [Header("Combat Settings")]
+    [SerializeField] protected int scoreAmount = 100;
+    [SerializeField] protected int HPamount = 3;
+
+    [Header("Shooting Settings")]
+    [SerializeField] protected float fireRate = 1f;
+    [SerializeField] protected float shootingRange = 20f; // Increased range to shoot even when off-screen
+    [SerializeField] protected Transform firePoint;
+    [SerializeField] protected GameObject bulletPrefab;
+
+    protected Rigidbody rb;
+    protected GameManagement gameManager;
+    protected Transform player;
+    private float nextFireTime;
+
+    public virtual void Activate() { /* Base activation logic */ }
+    protected virtual void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        gameManager = FindAnyObjectByType<GameManagement>();
+        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+    }
 
     protected virtual void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
-        rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration); // movement van enemy
-
+        ApplyInitialMovement();
         Invoke(nameof(DestroyEnemy), destroyTime);
-
-        game = FindAnyObjectByType<GameManagement>();
-        fireRateTimer = fireRate;
-
     }
 
     protected virtual void Update()
     {
-        fireRateTimer -= Time.deltaTime;
-        if (fireRateTimer <= 0)
-        {
-            FireEnemyBullet();
-            fireRateTimer = fireRate;
-        }
+        if (CanShoot()) Shoot();
     }
-    private void DestroyEnemy()
+
+    protected bool CanShoot()
     {
-        if (game != null)
+        if (player == null || bulletPrefab == null || firePoint == null)
+            return false;
+
+        // Check if player is within range (even if off-screen)
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        return (distanceToPlayer <= shootingRange && Time.time >= nextFireTime);
+    }
+
+    protected void Shoot()
+    {
+        if (bulletPrefab == null || firePoint == null) return;
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity); 
+
+        nextFireTime = Time.time + fireRate;
+    }
+
+    protected virtual void ApplyInitialMovement()
+    {
+        if (rb != null)
         {
-            game.RemoveEnemy(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
+            // Move left at a constant speed (no physics drag)
+            rb.velocity = Vector3.left * moveSpeed;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void OnBecameInvisible()
     {
-        if (collision.gameObject.CompareTag("Bullet"))
+        // Only despawn if completely off-screen (left side)
+        if (transform.position.x < -20f) // Adjust based on your camera view
         {
-            TakeDamage(1);
-            Destroy(collision.gameObject);
+            DestroyEnemy();
         }
     }
 
@@ -62,22 +81,16 @@ public abstract class EnemyScript : MonoBehaviour
         HPamount -= damage;
         if (HPamount <= 0)
         {
-            game.AddScore(scoreAmount);
-            game.RemoveEnemy(gameObject);
-            Destroy(gameObject);
+            if (gameManager != null)
+                gameManager.EnemyDied(gameObject, scoreAmount);
+            DestroyEnemy();
         }
     }
 
-    public virtual void Activate()
+    private void DestroyEnemy()
     {
-        // This method can be overridden by derived classes
-    }
-
-    private void FireEnemyBullet()
-    {
-        if (EnemyBullet != null && EnemyBulletSpawnPoint != null)
-        {
-            Instantiate(EnemyBullet, EnemyBulletSpawnPoint.transform.position, EnemyBullet.transform.rotation);
-        }
+        if (gameManager != null)
+            gameManager.RemoveEnemy(gameObject);
+        Destroy(gameObject);
     }
 }
