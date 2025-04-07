@@ -28,5 +28,8 @@ public class Utlilities : MonoBehaviour
         Application.Quit();
     }
 
-
+    public void MadeByScene()
+    {
+        SceneManager.LoadScene("MadeBy");
+    }
 }

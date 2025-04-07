@@ -172,7 +172,7 @@ MonoBehaviour:
   maxLives: 3
   currentLives: 3
   playerHP: 100
-  playerScript: {fileID: 0}
+  playerScript: {fileID: 1817320083}
   scoreText: {fileID: 647710516}
   waveText: {fileID: 0}
   gameOverScreen: {fileID: 0}
@@ -730,6 +730,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f70307b5d7c5d54bb079a03f50549cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1817320080 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2867185168904545460, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+  m_PrefabInstance: {fileID: 2000980324}
+  m_PrefabAsset: {fileID: 0}
+--- !u!96 &1817320081 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 6482958129941438724, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+  m_PrefabInstance: {fileID: 2000980324}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1817320083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817320080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b507a817463de545af9b2d547b1ab6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 4970562031031120079, guid: 142ddabb1bef6b04ba88b21633003fb4, type: 3}
+  bulletSpawnPoint: {fileID: 638173862}
+  fireRate: 0.2
+  moveSpeed: 6
+  verticalMoveSpeed: 3
+  acceleration: 5
+  deceleration: 8
+  canDash: 1
+  isDashing: 0
+  dashingPower: 10
+  dashingTime: 0.2
+  dashingCooldown: 1
+  TR: {fileID: 1817320081}
+  maxRollAngle: 40
+  maxPitchAngle: 20
+  tiltSmoothness: 10
+  rotationSmoothness: 15
+  defaultRotationZ: 90
+  game: {fileID: 72868976}
 --- !u!1001 &2000980324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -842,7 +883,10 @@ PrefabInstance:
     - {fileID: 2434117641393878197, guid: b92382c4683e2b244969856f5b70b362, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2867185168904545460, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 1817320083}
   m_SourcePrefab: {fileID: 100100000, guid: b92382c4683e2b244969856f5b70b362, type: 3}
 --- !u!1 &2027128498
 GameObject:
