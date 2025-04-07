@@ -6,29 +6,22 @@ public class EnemyBulletScript : MonoBehaviour
     [SerializeField] private float speed = 50f;
     [SerializeField] public int damage = 1;
     [SerializeField] private float lifetime = 3f;
-    [SerializeField] private LayerMask collisionMask; // Set to only include Player
+    [SerializeField] private LayerMask collisionMask;
 
     private void Start()
     {
-        // Option 1: Simple movement (no physics)
-        Destroy(GetComponent<Rigidbody>()); // Remove physics completely
-
-        // Option 2: If you need physics for other reasons
-        // GetComponent<Rigidbody>().isKinematic = true;
-
+        Destroy(GetComponent<Rigidbody>()); 
         GetComponent<Collider>().isTrigger = true;
         Destroy(gameObject, lifetime);
     }
 
     private void Update()
     {
-        // Simple, reliable movement
         transform.position += Vector3.left * speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Only collide with what's in collisionMask
         if (((1 << other.gameObject.layer) & collisionMask) != 0)
         {
             if (other.CompareTag("Player"))

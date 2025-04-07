@@ -18,7 +18,7 @@ public class BulletScript : MonoBehaviour
         if (bulletCollider == null) bulletCollider = GetComponent<Collider>();
 
         rb.isKinematic = true;
-        gameManager = FindAnyObjectByType<GameManagement>(); // Initialize the reference
+        gameManager = FindAnyObjectByType<GameManagement>(); 
 
         Destroy(gameObject, lifetime);
     }
