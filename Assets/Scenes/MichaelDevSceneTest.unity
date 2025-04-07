@@ -162,6 +162,9 @@ MonoBehaviour:
   - enemiesInWave: 0000000000000000000000000000000000000000
     spawnInterval: 2
     waveDuration: 3
+  - enemiesInWave: 0000000000000000000000000000000000000000
+    spawnInterval: 2
+    waveDuration: 3
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -169,7 +172,7 @@ MonoBehaviour:
   maxLives: 3
   currentLives: 3
   playerHP: 100
-  playerScript: {fileID: 2000980325}
+  playerScript: {fileID: 0}
   scoreText: {fileID: 647710516}
   waveText: {fileID: 0}
   gameOverScreen: {fileID: 0}
@@ -835,22 +838,12 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.0027656436
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2434117641393878197, guid: b92382c4683e2b244969856f5b70b362, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b92382c4683e2b244969856f5b70b362, type: 3}
---- !u!114 &2000980325 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2434117641393878197, guid: b92382c4683e2b244969856f5b70b362, type: 3}
-  m_PrefabInstance: {fileID: 2000980324}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b507a817463de545af9b2d547b1ab6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2027128498
 GameObject:
   m_ObjectHideFlags: 0

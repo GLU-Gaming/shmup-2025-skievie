@@ -30,7 +30,7 @@ public class BulletScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemies"))
         {
             EnemyScript enemy = other.GetComponent<EnemyScript>();
             if (enemy != null) enemy.TakeDamage(damage);

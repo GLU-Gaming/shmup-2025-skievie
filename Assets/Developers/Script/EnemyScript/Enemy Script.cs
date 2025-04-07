@@ -63,7 +63,7 @@ public abstract class EnemyScript : MonoBehaviour
         if (rb != null)
         {
             // Move left at a constant speed (no physics drag)
-            rb.velocity = Vector3.left * moveSpeed;
+            rb.linearVelocity = Vector3.left * moveSpeed;
         }
     }
 
