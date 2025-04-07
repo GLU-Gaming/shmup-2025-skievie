@@ -2,96 +2,95 @@ using UnityEngine;
 
 public abstract class EnemyScript : MonoBehaviour
 {
-    private Rigidbody rb;
-    [SerializeField] private GameObject EnemyTest;
-    [SerializeField] private float moveSpeed = 8;
+    [Header("Movement Settings")]
+    [SerializeField] protected float moveSpeed = 15f; // Increased speed (adjust as needed)
+    [SerializeField] private float destroyTime = 15f; // Increased lifetime before despawning
 
-    public GameManagement game; // script aan script 
+    [Header("Combat Settings")]
+    [SerializeField] protected int scoreAmount = 100;
+    [SerializeField] protected int HPamount = 3;
 
-    [SerializeField] int scoreAmount;
+    [Header("Shooting Settings")]
+    [SerializeField] protected float fireRate = 1f;
+    [SerializeField] protected float shootingRange = 20f; // Increased range to shoot even when off-screen
+    [SerializeField] protected Transform firePoint;
+    [SerializeField] protected GameObject bulletPrefab;
 
-    public int HPamount; // enemy HP
+    protected Rigidbody rb;
+    protected GameManagement gameManager;
+    protected Transform player;
+    private float nextFireTime;
 
-    public float fireRate;
-    public float fireRateTimer = 0.5f;
-    public float fireDamage = 17;
-
-    [SerializeField] private GameObject EnemyBullet;
-    [SerializeField] private GameObject EnemyBulletSpawnPoint;
-
-    [SerializeField] private float destroyTime = 10f;
-
-    void Start()
+    public virtual void Activate() { /* Base activation logic */ }
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(new Vector3(-transform.position.x, 0, 0) * moveSpeed, ForceMode.Acceleration); // movement van enemy+
+        gameManager = FindAnyObjectByType<GameManagement>();
+        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+    }
 
-
-
-        game = FindAnyObjectByType<GameManagement>();
-
+    protected virtual void Start()
+    {
+        ApplyInitialMovement();
         Invoke(nameof(DestroyEnemy), destroyTime);
     }
-    void Update()
+
+    protected virtual void Update()
     {
-        if (fireRateTimer <= 0)
+        if (CanShoot()) Shoot();
+    }
+
+    protected bool CanShoot()
+    {
+        if (player == null || bulletPrefab == null || firePoint == null)
+            return false;
+
+        // Check if player is within range (even if off-screen)
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        return (distanceToPlayer <= shootingRange && Time.time >= nextFireTime);
+    }
+
+    protected void Shoot()
+    {
+        if (bulletPrefab == null || firePoint == null) return;
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity); 
+
+        nextFireTime = Time.time + fireRate;
+    }
+
+    protected virtual void ApplyInitialMovement()
+    {
+        if (rb != null)
         {
-            FireEnemyBullet();
-            fireRateTimer = fireRate;
-
+            // Move left at a constant speed (no physics drag)
+            rb.linearVelocity = Vector3.left * moveSpeed;
         }
-        else if (fireRateTimer > 0) 
+    }
+
+    protected virtual void OnBecameInvisible()
+    {
+        // Only despawn if completely off-screen (left side)
+        if (transform.position.x < -20f) // Adjust based on your camera view
         {
-            fireRateTimer -= Time.deltaTime;
+            DestroyEnemy();
         }
-        
+    }
 
-
+    public void TakeDamage(int damage)
+    {
+        HPamount -= damage;
+        if (HPamount <= 0)
+        {
+            if (gameManager != null)
+                gameManager.EnemyDied(gameObject, scoreAmount);
+            DestroyEnemy();
+        }
     }
 
     private void DestroyEnemy()
     {
-        if (game != null)
-        {
-            game.RemoveEnemy(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (gameManager != null)
+            gameManager.RemoveEnemy(gameObject);
+        Destroy(gameObject);
     }
-
-    public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
-    {
-        if (collision.gameObject.CompareTag("Bullet") == true) // delete de bullet etc dat
-        {
-            EnemyHPdown();
-            Destroy(collision.gameObject);
-
-        }
-    }
-
-    public void EnemyHPdown() // spreekt voorzich
-    {
-        HPamount -= 1;
-        if (HPamount == 0)
-        {
-            game.AddScore(scoreAmount);
-            game.RemoveEnemy(gameObject);
-        }
-    }
-
-    public virtual void Activate()
-    {
-
-    }
-
-    public void FireEnemyBullet() // fire bullet
-    {
-        if (EnemyBullet != null && EnemyBulletSpawnPoint != null)
-        {
-            Instantiate(EnemyBullet, EnemyBulletSpawnPoint.transform.position, EnemyBullet.transform.rotation);
-        }
-    }
-
 }

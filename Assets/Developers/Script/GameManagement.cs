@@ -1,197 +1,234 @@
+using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
-
-//[System.Serializable]
-//public class WaveData
-//{
-//    public GameObject[] shipsToSpawn;
-//}
+using UnityEngine.UIElements;
 
 public class GameManagement : MonoBehaviour
 {
-    [SerializeField] private GameObject[] Enemies;
-    [SerializeField] private float EnemyAmount = 3;
+    public enum EnemyType { Small, Medium, Big }
+    public enum GamePhase { Preparation, Combat, Cooldown }
 
-    [SerializeField] private List<GameObject> spawnedEnemies = new List<GameObject>();
+    [System.Serializable]
+    public class EnemyPrefab
+    {
+        public EnemyType type;
+        public EnemyScript prefab;
+    }
 
-    [SerializeField] private LayerMask enemyLayer;
+    [System.Serializable]
+    public class EnemyWave
+    {
+        public EnemyType[] enemiesInWave;
+        public float spawnInterval = 0.5f;
+        public float waveDuration = 5f;
+    }
 
-    public float lifeAmount = 3;
+    [Header("Enemy Settings")]
+    [SerializeField] public EnemyPrefab[] enemyPrefabs; // Added enemyPrefabs array
+    [SerializeField] public EnemyWave[] waves;
+    [SerializeField] public LayerMask enemyLayer;
+    [SerializeField] private float spawnRadius = 3f;
+
+    [Header("Player Settings")]
+    public float maxLives = 3;
+    public float currentLives = 3;
     public float playerHP = 100;
+    [SerializeField] private PlaneScript playerScript;
 
-    public PlaneScript PlanePlayerScript;
-    public EnemyScript ScriptForEnemy;
-
+    [Header("UI References")]
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI waveText;
+    [SerializeField] private GameObject gameOverScreen;
 
+    // Game state
+    private List<GameObject> activeEnemies = new List<GameObject>();
+    private int currentWaveIndex = 0;
+    private GamePhase currentPhase = GamePhase.Preparation;
     public int score;
     public int highScore;
 
-    //[SerializeField] WaveData[] waves;
-    //int currentWave;
-    void Start()
+    private void Start()
     {
-        StartNewRound();
+        currentLives = maxLives;
+        StartCoroutine(GameLoop());
+        LoadHighscore();
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator GameLoop()
     {
-        
-    }
-
-    private void StartNewRound()
-    {
-
-        int maxTries = 10; 
-        int tries = 0;
-
-        while (spawnedEnemies.Count < EnemyAmount && tries < maxTries)
+        while (currentLives > 0)
         {
-            SpawnEnemy();
-            tries++;
+            // Preparation phase
+            currentPhase = GamePhase.Preparation;
+            UpdateWaveUI();
+            yield return new WaitForSeconds(2f); // Brief pause between waves
+
+            // Combat phase
+            currentPhase = GamePhase.Combat;
+            yield return StartCoroutine(SpawnWave(waves[currentWaveIndex]));
+
+            // Cooldown phase (despawn remaining enemies)
+            currentPhase = GamePhase.Cooldown;
+            yield return StartCoroutine(CleanupWave());
+
+            // Advance to next wave
+            currentWaveIndex = (currentWaveIndex + 1) % waves.Length;
         }
 
-        if (spawnedEnemies.Count < EnemyAmount)
+        GameOver();
+    }
+
+    private IEnumerator SpawnWave(EnemyWave wave)
+    {
+        float waveTimer = 0f;
+        int spawnIndex = 0;
+
+        while (waveTimer < wave.waveDuration && spawnIndex < wave.enemiesInWave.Length)
         {
-            Invoke(nameof(StartNewRound), 1f); // probeer opnieuw na 1 seconde
+            SpawnEnemy(wave.enemiesInWave[spawnIndex]);
+            spawnIndex++;
+            waveTimer += wave.spawnInterval;
+            yield return new WaitForSeconds(wave.spawnInterval);
         }
     }
 
-
-    public void EnemyDied(GameObject enemy)
+    private IEnumerator CleanupWave()
     {
-        spawnedEnemies.Remove(enemy);
-        Destroy(enemy);
+        // Despawn all enemies after 5 seconds
+        yield return new WaitForSeconds(5f);
 
-        StartNewRound(); 
-    }
-
-
-    private void SpawnEnemy()
-    {
-        int maxAttempts = 10; 
-        int attempts = 0;
-
-        while (attempts < maxAttempts)
+        foreach (var enemy in activeEnemies.ToArray())
         {
-            Vector3 spawnpoint = new Vector3(Random.Range(18, 26), Random.Range(-5, 5), 12);
-
-            if (EnemyPlayerOverlap(spawnpoint, 3))
+            if (enemy != null)
             {
-                int RandomEnemy = Random.Range(0, Enemies.Length);
-                GameObject go = Instantiate(Enemies[RandomEnemy], spawnpoint, Enemies[RandomEnemy].transform.rotation);
-                spawnedEnemies.Add(go);
-              
-                return;
+                RemoveEnemy(enemy);
             }
-
-            attempts++;
         }
-
-        Debug.LogWarning("Failed to spawn an enemy after " + maxAttempts + " attempts.");
     }
 
-    public void RemoveEnemy(GameObject enemiesToRemove) // verwijderen van enemy
+    private void SpawnEnemy(EnemyType type)
     {
-        spawnedEnemies.Remove(enemiesToRemove);
-        Destroy(enemiesToRemove);
+        Vector3 spawnPos = GetValidSpawnPosition();
+        var enemyPrefab = System.Array.Find(enemyPrefabs, x => x.type == type);
 
-        if (spawnedEnemies.Count == 0)
+        if (enemyPrefab != null && spawnPos != Vector3.zero)
         {
-            StartNewRound();
-        }
+            EnemyScript enemy = Instantiate(
+                enemyPrefab.prefab,
+                spawnPos,
+                Quaternion.identity
+            );
 
+            activeEnemies.Add(enemy.gameObject);
+            enemy.Activate();
+
+            // Auto-remove after 5 seconds if not destroyed
+            StartCoroutine(AutoRemoveEnemy(enemy.gameObject, 5f));
+        }
     }
 
-    public bool EnemyPlayerOverlap(Vector3 center, float radius)
+    private IEnumerator AutoRemoveEnemy(GameObject enemy, float delay)
     {
-        bool freeSpace = false;
+        yield return new WaitForSeconds(delay);
+        if (enemy != null) RemoveEnemy(enemy);
+    }
 
-        Collider[] Enemies = Physics.OverlapSphere(center, radius, enemyLayer.value);
-        if (Enemies.Length == 0)
+    private Vector3 GetValidSpawnPosition()
+    {
+        for (int i = 0; i < 10; i++)
         {
-            freeSpace = true;
+            Vector3 randomPos = new Vector3(
+                Random.Range(18, 26),
+                Random.Range(-5, 5),
+                12
+            );
+
+            if (Physics.OverlapSphere(randomPos, spawnRadius, enemyLayer).Length == 0)
+            {
+                return randomPos;
+            }
         }
-        return freeSpace;
-
-
-
+        return Vector3.zero;
     }
 
-    public void ReportPlayerHit()
+    public void RemoveEnemy(GameObject enemy)
     {
-
-        
-       if (lifeAmount == 0)
-       {
-            
-            SceneManager.LoadScene("EndGameScreen");
-       }
-        
-
-        lifeAmount -= 1;
-
-
+        if (activeEnemies.Contains(enemy))
+        {
+            activeEnemies.Remove(enemy);
+            Destroy(enemy);
+        }
     }
 
+    public void TakeDamageFromEnemy(int damageAmount)
+    {
+        playerHP -= damageAmount;
+        if (playerHP <= 0)
+        {
+            currentLives--;
+            playerHP = 100; // Reset HP
 
+            if (currentLives <= 0)
+            {
+                GameOver();
+            }
+        }
+    }
+
+    public void EnemyDied(GameObject enemy, int scoreValue)
+    {
+        AddScore(scoreValue);
+        RemoveEnemy(enemy);
+    }
+
+    public void ReportPlayerHit(int damage = 1)
+    {
+        TakeDamageFromEnemy(damage);
+    }
+
+    private void GameOver()
+    {
+        StopAllCoroutines();
+        gameOverScreen.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void UpdateWaveUI()
+    {
+        if (waveText != null)
+        {
+            waveText.text = $"Wave {currentWaveIndex + 1}\nPhase: {currentPhase}";
+        }
+    }
 
     public void AddScore(int amount)
     {
-        score = score + (amount);
-
-        scoreText.text = "Score: " + score;
+        score += amount;
+        UpdateScoreText();
 
         if (score > highScore)
         {
             highScore = score;
             SaveHighScore();
         }
+    }
 
-        if (score == 1000)
+    private void UpdateScoreText()
+    {
+        if (scoreText != null)
         {
-            SceneManager.LoadScene("Bossfightscene");
-            LoadScore();
+            scoreText.text = $"Score: {score}\nHigh Score: {highScore}";
         }
     }
 
-    public void SaveScore()
-    {
-        PlayerPrefs.SetInt("myScore", score);
-    }
-
-    public void SaveHighScore()
-    {
-        PlayerPrefs.SetInt("myHighScore", highScore);
-    }
-
-    public void LoadScore()
-    {
-        int loadedNumber = PlayerPrefs.GetInt("myScore");
-    }
-
-    public void LoadHighscore()
-    {
-        int loadedNumber = PlayerPrefs.GetInt("myHighScore");
-    }
-
-    public void UpdateScoreText()
-    {
-        scoreText.text = "Score: " + score;
-    }
-
-    public void TakeDamageFromEnemy(int damage)
-    {
-        playerHP -= damage;
-
-        if (playerHP <= 0)
-        {
-            lifeAmount -= 1;
-        }
-    }
-
+    private void SaveHighScore() => PlayerPrefs.SetInt("HighScore", highScore);
+    private void LoadHighscore() => highScore = PlayerPrefs.GetInt("HighScore", 0);
 }
