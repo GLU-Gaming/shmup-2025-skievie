@@ -31,6 +31,7 @@ public class PlaneScript : MonoBehaviour
     [SerializeField] private float maxPitchAngle = 20f; // New pitch angle for up/down movement
     [SerializeField] private float tiltSmoothness = 10f;
     [SerializeField] private float rotationSmoothness = 15f;
+    [SerializeField] private float defaultRotationY = 90f;
     [SerializeField] private float defaultRotationZ = 90f;
     private float currentTiltY = 0f;
     private float currentTiltZ = 0f;
@@ -42,7 +43,7 @@ public class PlaneScript : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        transform.rotation = Quaternion.Euler(0f, 0f, defaultRotationZ);
+        transform.rotation = Quaternion.Euler(0f, 0f , defaultRotationZ);
         targetRotation = transform.rotation;
     }
 
