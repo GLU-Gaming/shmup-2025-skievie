@@ -32,10 +32,9 @@ public class GameManagement : MonoBehaviour
     [SerializeField] private float spawnRadius = 3f;
 
     [Header("Player Settings")]
-    public float maxLives = 3;
-    public float currentLives = 3;
-    public float playerHP = 100;
     [SerializeField] private PlaneScript playerScript;
+    public float maxPlayerHP = 100f;
+    public float playerHP = 100f;
 
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -51,14 +50,13 @@ public class GameManagement : MonoBehaviour
 
     private void Start()
     {
-        currentLives = maxLives;
         StartCoroutine(GameLoop());
         LoadHighscore();
     }
 
     private IEnumerator GameLoop()
     {
-        while (currentLives > 0)
+        while (playerHP > 0)
         {
             // Preparation phase
             currentPhase = GamePhase.Preparation;
@@ -162,30 +160,18 @@ public class GameManagement : MonoBehaviour
         }
     }
 
-    public void TakeDamageFromEnemy(int damageAmount)
-    {
-        playerHP -= damageAmount;
-        if (playerHP <= 0)
-        {
-            currentLives--;
-            playerHP = 100; // Reset HP
-
-            if (currentLives <= 0)
-            {
-                GameOver();
-            }
-        }
-    }
-
     public void EnemyDied(GameObject enemy, int scoreValue)
     {
         AddScore(scoreValue);
         RemoveEnemy(enemy);
     }
 
-    public void ReportPlayerHit(int damage = 1)
+    public void ReportPlayerHit(float damage)
     {
-        TakeDamageFromEnemy(damage);
+        playerHP -= damage;
+        playerHP = Mathf.Clamp(playerHP, 0, maxPlayerHP);
+
+        if (playerHP <= 0) GameOver();
     }
 
     private void GameOver()
