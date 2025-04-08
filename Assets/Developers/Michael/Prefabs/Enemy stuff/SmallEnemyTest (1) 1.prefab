@@ -185,7 +185,7 @@ MonoBehaviour:
   destroyTime: 10
   scoreAmount: 15
   HPamount: 3
-  fireRate: 1
+  fireRate: 0.5
   shootingRange: 10
   firePoint: {fileID: 993652499316990352}
   bulletPrefab: {fileID: 301494575417627427, guid: 445733e873bfa74468623d78af3f0207, type: 3}
