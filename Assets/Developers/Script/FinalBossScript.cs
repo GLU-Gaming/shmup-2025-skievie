@@ -1,16 +1,72 @@
+using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FinalBossScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Shooting Settings")]
+    [SerializeField] public float fireRate = 1f;
+    [SerializeField] public Transform firePointHigh;
+    [SerializeField] public Transform firePointLow;
+    [SerializeField] public GameObject bulletPrefab;
+
+    public Rigidbody rb;
+    public GameManagement game;
+    public Transform player;
+    private float nextFireTime;
+    public float fireRateTimer = 0.5f;
+    public float fireDamage = 17;
+
+    [SerializeField] private GameObject EnemyBullet;
+
+
+    public int HPamount; // boss HP = 100
+    [SerializeField] int scoreAmount; // score amount = 1000
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+       
     }
+
+    public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
+    {
+        if (collision.gameObject.CompareTag("Bullet") == true) // delete de bullet etc dat
+        {
+            BossHPdown();
+            Destroy(collision.gameObject);
+
+        }
+    }
+
+    public void BossHPdown() // spreekt voorzich
+    {
+        HPamount -= 1;
+        if (HPamount == 0)
+        {
+            game.AddScore(scoreAmount);
+            Destroy(gameObject);
+            DefeatBossToWinScreen();
+        }
+    }
+
+    public void FireEnemyBullet() // fire bullet
+    {
+        if (EnemyBullet != null && firePointHigh != null && firePointLow != null)
+        {
+            Instantiate(EnemyBullet, firePointHigh.transform.position, EnemyBullet.transform.rotation);
+            Instantiate(EnemyBullet, firePointLow.transform.position, EnemyBullet.transform.rotation);
+        }
+    }
+
+    public void DefeatBossToWinScreen()
+    {
+        Invoke(nameof(Destroy), 6f);
+        SceneManager.LoadScene("EndGameScreen");
+    }
+
 }
