@@ -43,15 +43,15 @@ public class FinalBossScript : MonoBehaviour
 
     }
 
-    public void OnCollisionEnter(Collision collision) // collide om de boss te verwijderen, geldt ook voor de kogel 
-    { 
-        if (collision.gameObject.CompareTag("Bullet"))
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
         {
-            BulletScript bullet = collision.gameObject.GetComponent<BulletScript>();
+            BulletScript bullet = other.GetComponent<BulletScript>();
             if (bullet != null)
             {
                 TakeDamage(bullet.damage);
-                Destroy(collision.gameObject);
+                Destroy(other.gameObject);
             }
         }
     }

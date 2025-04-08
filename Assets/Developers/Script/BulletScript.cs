@@ -36,6 +36,12 @@ public class BulletScript : MonoBehaviour
             if (enemy != null) enemy.TakeDamage(damage);
             Destroy(gameObject);
         }
+
+        if (other.CompareTag("Boss"))
+        {
+            FinalBossScript boss = other.GetComponent<FinalBossScript>();
+            if (boss != null) boss.TakeDamage(damage);
+        }
     }
 
     private void DestroyBullet()
