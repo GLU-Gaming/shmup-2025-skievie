@@ -60,7 +60,7 @@ public abstract class EnemyScript : MonoBehaviour
     {
         if (rb != null)
         {
-            rb.velocity = Vector3.left * moveSpeed;
+            rb.linearVelocity = Vector3.left * moveSpeed;
         }
     }
 

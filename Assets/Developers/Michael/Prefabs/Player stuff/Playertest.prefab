@@ -179,7 +179,7 @@ MonoBehaviour:
   bulletSpawnPoint: {fileID: 0}
   fireRate: 0.2
   moveSpeed: 6
-  verticalMoveSpeed: 3
+  verticalMoveSpeed: 6
   acceleration: 5
   deceleration: 8
   canDash: 1
