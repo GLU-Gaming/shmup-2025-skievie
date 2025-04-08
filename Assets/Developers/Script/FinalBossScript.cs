@@ -8,7 +8,7 @@ public class FinalBossScript : MonoBehaviour
     [SerializeField] public Transform firePointLow;
     [SerializeField] public GameObject bulletPrefab;
 
-    public Rigidbody rb;
+    private Rigidbody rb;
     public GameManagement game;
     public Transform player;
     private float nextFireTime;
@@ -43,14 +43,14 @@ public class FinalBossScript : MonoBehaviour
 
     }
 
-    public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
+    public void OnCollisionEnter(Collision collision) // collide om de boss te verwijderen, geldt ook voor de kogel 
     { 
         if (collision.gameObject.CompareTag("Bullet"))
         {
             BulletScript bullet = collision.gameObject.GetComponent<BulletScript>();
             if (bullet != null)
             {
-                BossHPdown();
+                TakeDamage(bullet.damage);
                 Destroy(collision.gameObject);
             }
         }
@@ -88,15 +88,15 @@ public class FinalBossScript : MonoBehaviour
         if (HPamount <= 0)
         {
             if (game != null)
-                game.EnemyDied(gameObject, scoreAmount);
-            DestroyEnemy();
+                game.BossDied(gameObject, scoreAmount);
+            DestroyBoss();
         }
     }
 
-    private void DestroyEnemy()
+    private void DestroyBoss()
     {
         if (game != null)
-            game.RemoveEnemy(gameObject);
+            game.RemoveBoss(gameObject);
         Destroy(gameObject);
     }
 

@@ -217,4 +217,17 @@ public class GameManagement : MonoBehaviour
 
     private void SaveHighScore() => PlayerPrefs.SetInt("HighScore", highScore);
     private void LoadHighscore() => highScore = PlayerPrefs.GetInt("HighScore", 0);
+
+    public void RemoveBoss(GameObject Boss)
+    {
+        Destroy(Boss);
+    }
+
+    public void BossDied(GameObject Boss, int scoreValue)
+    {
+        AddScore(scoreValue);
+        RemoveBoss(Boss);
+    }
+
+
 }
