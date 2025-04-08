@@ -43,8 +43,8 @@ GameObject:
   - component: {fileID: 890828047185379465}
   - component: {fileID: 6213668201903011267}
   - component: {fileID: 899855372516343935}
-  - component: {fileID: 1852221488894114041}
   - component: {fileID: 1844930419466644101}
+  - component: {fileID: 1107891491202771630}
   m_Layer: 7
   m_Name: SmallEnemyTest (1) 1
   m_TagString: Enemies
@@ -148,8 +148,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 56
   m_CollisionDetection: 0
---- !u!135 &1852221488894114041
-SphereCollider:
+--- !u!114 &1844930419466644101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6254372975178206743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9748387934a38c24daff530c7f8ccebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 8
+  destroyTime: 10
+  scoreAmount: 15
+  HPamount: 2
+  fireRate: 0.5
+  shootingRange: 10
+  firePoint: {fileID: 993652499316990352}
+  bulletPrefab: {fileID: 301494575417627427, guid: 445733e873bfa74468623d78af3f0207, type: 3}
+--- !u!65 &1107891491202771630
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -167,25 +187,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.010000003
-  m_Center: {x: -0.000000003259629, y: 0.00000000325963, z: 0}
---- !u!114 &1844930419466644101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6254372975178206743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9748387934a38c24daff530c7f8ccebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 8
-  destroyTime: 10
-  scoreAmount: 15
-  HPamount: 3
-  fireRate: 0.5
-  shootingRange: 10
-  firePoint: {fileID: 993652499316990352}
-  bulletPrefab: {fileID: 301494575417627427, guid: 445733e873bfa74468623d78af3f0207, type: 3}
+  m_Size: {x: 0.021110876, y: 0.03472647, z: 0.023577264}
+  m_Center: {x: 0, y: 0.00005403205, z: -0.0017886255}

@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class FinalBossScript : MonoBehaviour
 {
-    [Header("Shooting Settings")]
-    [SerializeField] public float fireRate = 1f;
     [SerializeField] public Transform firePointHigh;
     [SerializeField] public Transform firePointLow;
     [SerializeField] public GameObject bulletPrefab;
@@ -14,6 +12,7 @@ public class FinalBossScript : MonoBehaviour
     public GameManagement game;
     public Transform player;
     private float nextFireTime;
+    public float fireRate;
     public float fireRateTimer = 0.5f;
     public float fireDamage = 17;
 
@@ -25,21 +24,35 @@ public class FinalBossScript : MonoBehaviour
 
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+
     }
 
     void Update()
     {
-       
+        if (fireRateTimer <= 0)
+        {
+            FireEnemyBullet();
+            fireRateTimer = fireRate;
+
+        }
+        else if (fireRateTimer > 0)
+        {
+            fireRateTimer -= Time.deltaTime;
+        }
+
     }
 
     public void OnCollisionEnter(Collision collision) // collide om de enemy te verwijderen, geldt ook voor de kogel 
-    {
-        if (collision.gameObject.CompareTag("Bullet") == true) // delete de bullet etc dat
+    { 
+        if (collision.gameObject.CompareTag("Bullet"))
         {
-            BossHPdown();
-            Destroy(collision.gameObject);
-
+            BulletScript bullet = collision.gameObject.GetComponent<BulletScript>();
+            if (bullet != null)
+            {
+                BossHPdown();
+                Destroy(collision.gameObject);
+            }
         }
     }
 
@@ -69,4 +82,23 @@ public class FinalBossScript : MonoBehaviour
         SceneManager.LoadScene("EndGameScreen");
     }
 
+    public void TakeDamage(int damage)
+    {
+        HPamount -= damage;
+        if (HPamount <= 0)
+        {
+            if (game != null)
+                game.EnemyDied(gameObject, scoreAmount);
+            DestroyEnemy();
+        }
+    }
+
+    private void DestroyEnemy()
+    {
+        if (game != null)
+            game.RemoveEnemy(gameObject);
+        Destroy(gameObject);
+    }
+
+    
 }

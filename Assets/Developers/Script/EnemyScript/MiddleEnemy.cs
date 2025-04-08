@@ -7,7 +7,7 @@ public class MiddleEnemy : EnemyScript
         transform.rotation = Quaternion.Euler(0, 90, 0);
         base.Activate();
         fireRate = 0.75f;
-        HPamount = 9;
+        HPamount = 4;
         scoreAmount = 35;
     }
 }

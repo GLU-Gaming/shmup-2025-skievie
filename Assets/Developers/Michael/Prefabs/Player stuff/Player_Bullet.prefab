@@ -50,8 +50,7 @@ MonoBehaviour:
   speed: 20
   lifetime: 3
   damage: 1
-  isEnemyBullet: 0
-  bulletCollider: {fileID: 0}
+  bulletCollider: {fileID: 2243234011025515248}
 --- !u!54 &4006973363250277981
 Rigidbody:
   m_ObjectHideFlags: 0

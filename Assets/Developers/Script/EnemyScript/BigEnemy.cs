@@ -7,7 +7,7 @@ public class BigEnemy : EnemyScript
         transform.rotation = Quaternion.Euler(-90, 0, 90);
         base.Activate();
         fireRate = 0.75f;
-        HPamount = 9;
+        HPamount = 6;
         scoreAmount = 35;
     }
 }
