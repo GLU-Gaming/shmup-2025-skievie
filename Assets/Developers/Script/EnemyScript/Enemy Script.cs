@@ -54,6 +54,8 @@ public abstract class EnemyScript : MonoBehaviour
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bullet.transform.rotation = Quaternion.Euler(-90, 180, 0);
+
+        nextFireTime = Time.time + fireRate;
     }
 
     protected virtual void ApplyInitialMovement()
