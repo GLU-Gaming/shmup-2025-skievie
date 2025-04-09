@@ -48,6 +48,9 @@ public class GameManagement : MonoBehaviour
     public int score;
     public int highScore;
 
+    public AudioSource audioEnemyDeath;
+    
+
     private void Start()
     {
         StartCoroutine(GameLoop());
@@ -162,6 +165,7 @@ public class GameManagement : MonoBehaviour
 
     public void EnemyDied(GameObject enemy, int scoreValue)
     {
+        audioEnemyDeath.Play();
         AddScore(scoreValue);
         RemoveEnemy(enemy);
     }
