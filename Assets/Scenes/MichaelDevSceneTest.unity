@@ -169,10 +169,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   spawnRadius: 3
-  maxLives: 3
-  currentLives: 3
-  playerHP: 100
   playerScript: {fileID: 1817320083}
+  maxPlayerHP: 100
+  playerHP: 100
   scoreText: {fileID: 647710516}
   waveText: {fileID: 0}
   gameOverScreen: {fileID: 0}
@@ -769,6 +768,7 @@ MonoBehaviour:
   maxPitchAngle: 20
   tiltSmoothness: 10
   rotationSmoothness: 15
+  defaultRotationY: 90
   defaultRotationZ: 90
   game: {fileID: 72868976}
 --- !u!1001 &2000980324
@@ -806,6 +806,10 @@ PrefabInstance:
     - target: {fileID: 2867185168904545460, guid: b92382c4683e2b244969856f5b70b362, type: 3}
       propertyPath: m_Name
       value: Phoenix
+      objectReference: {fileID: 0}
+    - target: {fileID: 2867185168904545460, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2867185168904545460, guid: b92382c4683e2b244969856f5b70b362, type: 3}
       propertyPath: m_TagString
