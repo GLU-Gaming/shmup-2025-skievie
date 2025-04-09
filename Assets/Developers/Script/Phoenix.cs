@@ -26,25 +26,23 @@ public class PlaneScript : MonoBehaviour
     [SerializeField] private float dashingCooldown = 1f;
     [SerializeField] private TrailRenderer TR;
 
-    [Header("Animation")]
-    [SerializeField] private float maxRollAngle = 40f; // Renamed from maxTiltAngle for clarity
-    [SerializeField] private float maxPitchAngle = 20f; // New pitch angle for up/down movement
+    [Header("Rotation Settings")]
+    [SerializeField] private float maxRollAngle = 40f;
+    [SerializeField] private float maxPitchAngle = 40f;
     [SerializeField] private float tiltSmoothness = 10f;
     [SerializeField] private float rotationSmoothness = 15f;
-    [SerializeField] private float defaultRotationY = 90f;
-    [SerializeField] private float defaultRotationZ = 90f;
-    private float currentTiltY = 0f;
-    private float currentTiltZ = 0f;
-    private float currentTiltX = 0f;
+    private float currentRollAngle = 0f;
+    private float currentPitchAngle = 0f;
     private Quaternion targetRotation;
+    private Quaternion baseRotation = Quaternion.Euler(0, 90, 90);
 
     public GameManagement game;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        transform.rotation = Quaternion.Euler(0f, 0f , defaultRotationZ);
-        targetRotation = transform.rotation;
+        transform.rotation = baseRotation; // Enforce initial rotation
+        targetRotation = baseRotation;
     }
 
     private void Update()
@@ -56,35 +54,30 @@ public class PlaneScript : MonoBehaviour
         UpdateRotation();
     }
 
-
     private void HandleMovement()
     {
         float horizontalInput = Input.GetKey(KeyCode.D) ? 1f : (Input.GetKey(KeyCode.A) ? -1f : 0f);
         float verticalInput = Input.GetKey(KeyCode.W) ? 1f : (Input.GetKey(KeyCode.S) ? -1f : 0f);
 
+        // Use world-space directions: X (left/right), Y (up/down)
         Vector3 targetVelocity = new Vector3(horizontalInput * moveSpeed, verticalInput * verticalMoveSpeed, 0f);
 
         currentVelocity = targetVelocity.magnitude > 0.1f
             ? Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime)
             : Vector3.Lerp(currentVelocity, Vector3.zero, deceleration * Time.deltaTime);
 
-        rb.linearVelocity = currentVelocity;
+        rb.velocity = currentVelocity;
 
-        // Roll (tilt around Z axis when moving left/right)
-        float targetRoll = -horizontalInput * maxRollAngle;
+        float pitchMultiplier = 2f; 
 
-        // Pitch (tilt around X axis when moving up/down)
-        float targetPitch = -verticalInput * maxPitchAngle;
+        // Visual banking/tilting
+        currentRollAngle = Mathf.Lerp(currentRollAngle, -verticalInput * maxRollAngle, tiltSmoothness * Time.deltaTime);
+        currentPitchAngle = Mathf.Lerp(currentPitchAngle, -horizontalInput * maxPitchAngle * pitchMultiplier, tiltSmoothness * Time.deltaTime);
 
-        // Slight Z rotation adjustment when moving left/right
-        float targetZRotation = defaultRotationZ - Mathf.Abs(horizontalInput) * 5f;
-
-        currentTiltY = Mathf.Lerp(currentTiltY, targetRoll, tiltSmoothness * Time.deltaTime);
-        currentTiltX = Mathf.Lerp(currentTiltX, targetPitch, tiltSmoothness * Time.deltaTime);
-        currentTiltZ = Mathf.Lerp(currentTiltZ, targetZRotation, tiltSmoothness * Time.deltaTime);
-
-        targetRotation = Quaternion.Euler(currentTiltX, currentTiltY, currentTiltZ);
+        targetRotation = baseRotation * Quaternion.Euler(currentPitchAngle, 0f, currentRollAngle);
     }
+
+
 
     private void UpdateRotation()
     {
@@ -105,17 +98,18 @@ public class PlaneScript : MonoBehaviour
         isDashing = true;
         rb.useGravity = false;
 
-        Vector3 dashDirection = rb.linearVelocity.normalized;
+        Vector3 dashDirection = rb.velocity.normalized;
         if (dashDirection == Vector3.zero)
         {
-            dashDirection = Vector3.right;
+            dashDirection = transform.right; // Dash forward by default
         }
 
-        rb.linearVelocity = dashDirection * dashingPower;
+        rb.velocity = dashDirection * dashingPower;
         TR.emitting = true;
 
-        float dashTilt = dashDirection.x > 0 ? -25f : 25f;
-        targetRotation = Quaternion.Euler(0f, dashTilt * 2f, defaultRotationZ + dashTilt);
+        // Add dramatic tilt during dash
+        float dashRoll = dashDirection.x > 0 ? -45f : 45f;
+        targetRotation = baseRotation * Quaternion.Euler(0, 0, dashRoll);
 
         yield return new WaitForSeconds(dashingTime);
 
@@ -145,9 +139,7 @@ public class PlaneScript : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && Time.time > nextFireTime)
         {
             nextFireTime = Time.time + fireRate;
-
-            // Force zero rotation regardless of spawn point
-              Instantiate(bulletPrefab, bulletSpawnPoint.position,Quaternion.identity); // This ensures no rotation
+            Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation);
         }
     }
 }
