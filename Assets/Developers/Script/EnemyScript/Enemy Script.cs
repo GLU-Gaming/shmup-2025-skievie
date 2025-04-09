@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public abstract class EnemyScript : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] protected float moveSpeed = 15f;
     [SerializeField] private float destroyTime = 15f;
+    [SerializeField] private float stopPositionX = 4f;
 
     [Header("Combat Settings")]
     [SerializeField] protected int scoreAmount = 100;
@@ -20,6 +22,7 @@ public abstract class EnemyScript : MonoBehaviour
     protected GameManagement gameManager;
     protected Transform player;
     private float nextFireTime;
+    private bool hasReachedPosition = false;
 
     public AudioSource audioEnemyShoot;
     public virtual void Activate() { }
@@ -38,7 +41,22 @@ public abstract class EnemyScript : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (!hasReachedPosition && transform.position.x <= stopPositionX)
+        {
+            StopMovement();
+            hasReachedPosition = true;
+        }
+
         if (CanShoot()) Shoot();
+    }
+
+    protected virtual void StopMovement()
+    {
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.constraints = RigidbodyConstraints.FreezePositionX | rb.constraints;
+        }
     }
 
     protected bool CanShoot()
@@ -65,7 +83,7 @@ public abstract class EnemyScript : MonoBehaviour
     {
         if (rb != null)
         {
-            rb.linearVelocity = Vector3.left * moveSpeed;
+            rb.velocity = Vector3.left * moveSpeed;
         }
     }
 
@@ -94,4 +112,5 @@ public abstract class EnemyScript : MonoBehaviour
             gameManager.RemoveEnemy(gameObject);
         Destroy(gameObject);
     }
+
 }
