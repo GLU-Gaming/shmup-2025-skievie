@@ -21,6 +21,7 @@ public abstract class EnemyScript : MonoBehaviour
     protected Transform player;
     private float nextFireTime;
 
+    public AudioSource audioEnemyShoot;
     public virtual void Activate() { }
     protected virtual void Awake()
     {
@@ -54,6 +55,10 @@ public abstract class EnemyScript : MonoBehaviour
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         bullet.transform.rotation = Quaternion.Euler(-90, 180, 0);
+
+        audioEnemyShoot.Play();
+
+        nextFireTime = Time.time + fireRate;
     }
 
     protected virtual void ApplyInitialMovement()
