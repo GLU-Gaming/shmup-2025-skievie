@@ -1354,13 +1354,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a7ca3c99745d340a57fe3c0dac141a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 1.5
   firePointHigh: {fileID: 939088554}
   firePointLow: {fileID: 1434089229}
   bulletPrefab: {fileID: 301494575417627427, guid: 445733e873bfa74468623d78af3f0207, type: 3}
-  rb: {fileID: 2049659331}
   game: {fileID: 1026157607}
   player: {fileID: 1794639703}
+  fireRate: 0.6
   fireRateTimer: 1.2
   fireDamage: 10
   EnemyBullet: {fileID: 301494575417627427, guid: 445733e873bfa74468623d78af3f0207, type: 3}
@@ -1431,6 +1430,10 @@ PrefabInstance:
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1286496924541383105, guid: e9f1b5fa94d8d5c49b26949a28065858, type: 3}
+      propertyPath: m_Name
+      value: HighShoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1286496924541383105, guid: e9f1b5fa94d8d5c49b26949a28065858, type: 3}
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
@@ -1493,6 +1496,10 @@ PrefabInstance:
     - target: {fileID: 3387874928907550099, guid: e9f1b5fa94d8d5c49b26949a28065858, type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5949494001483004122, guid: e9f1b5fa94d8d5c49b26949a28065858, type: 3}
+      propertyPath: m_Name
+      value: LowShoot
       objectReference: {fileID: 0}
     - target: {fileID: 5949494001483004122, guid: e9f1b5fa94d8d5c49b26949a28065858, type: 3}
       propertyPath: m_Layer
