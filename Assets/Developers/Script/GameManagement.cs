@@ -231,7 +231,13 @@ public class GameManagement : MonoBehaviour
     {
         AddScore(scoreValue);
         RemoveBoss(Boss);
+
+        DefeatBossToWinScreen();
     }
 
+    public void DefeatBossToWinScreen()
+    { 
+        SceneManager.LoadScene("WinScreen");
+    }
 
 }

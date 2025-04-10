@@ -22,10 +22,13 @@ public class FinalBossScript : MonoBehaviour
     public int HPamount; // boss HP = 100
     [SerializeField] int scoreAmount; // score amount = 1000
 
+    public BossHealthBar bossHealthBar;
+
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
     }
 
     void Update()
@@ -62,8 +65,9 @@ public class FinalBossScript : MonoBehaviour
         if (HPamount == 0)
         {
             game.AddScore(scoreAmount);
+            Destroy(bossHealthBar.BossHealthBarUI);
             Destroy(gameObject);
-            DefeatBossToWinScreen();
+            game.DefeatBossToWinScreen();
         }
     }
 
@@ -74,12 +78,6 @@ public class FinalBossScript : MonoBehaviour
             Instantiate(EnemyBullet, firePointHigh.transform.position, EnemyBullet.transform.rotation);
             Instantiate(EnemyBullet, firePointLow.transform.position, EnemyBullet.transform.rotation);
         }
-    }
-
-    public void DefeatBossToWinScreen()
-    {
-        Invoke(nameof(Destroy), 6f);
-        SceneManager.LoadScene("EndGameScreen");
     }
 
     public void TakeDamage(int damage)
@@ -97,6 +95,7 @@ public class FinalBossScript : MonoBehaviour
     {
         if (game != null)
             game.RemoveBoss(gameObject);
+        bossHealthBar.BossHealthBarUI.SetActive(false);
         Destroy(gameObject);
     }
 
