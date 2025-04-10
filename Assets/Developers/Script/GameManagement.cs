@@ -228,7 +228,7 @@ public class GameManagement : MonoBehaviour
             SaveHighScore();
         }
 
-        if (score > 10 && SceneManager.GetActiveScene().name != "Bossfightscene")
+        if (score > 750 && SceneManager.GetActiveScene().name != "Bossfightscene")
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Bossfightscene");
    

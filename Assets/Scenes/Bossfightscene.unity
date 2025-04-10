@@ -1044,7 +1044,7 @@ MonoBehaviour:
   highscoreText: {fileID: 0}
   score: 0
   highScore: 0
-  audioEnemyDeath: {fileID: 1026157608}
+  MainTheme: {fileID: 0}
 --- !u!82 &1026157608
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1350,6 +1350,10 @@ PrefabInstance:
       propertyPath: game
       value: 
       objectReference: {fileID: 1026157607}
+    - target: {fileID: 2434117641393878197, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+      propertyPath: PlayerLaseraudio
+      value: 
+      objectReference: {fileID: 1794639709}
     - target: {fileID: 2434117641393878197, guid: b92382c4683e2b244969856f5b70b362, type: 3}
       propertyPath: bulletSpawnPoint
       value: 
