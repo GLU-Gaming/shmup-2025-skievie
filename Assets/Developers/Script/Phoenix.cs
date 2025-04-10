@@ -139,7 +139,7 @@ public class PlaneScript : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && Time.time > nextFireTime)
         {
             nextFireTime = Time.time + fireRate;
-            Instantiate(bulletPrefab, bulletSpawnPoint.position, transform.rotation);
+            Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 0));
         }
     }
 }
