@@ -219,7 +219,7 @@ public class GameManagement : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = $"Score: {score}\nHigh Score: {highScore}";
+            scoreText.text = $"Score: {score}";
         }
     }
 
