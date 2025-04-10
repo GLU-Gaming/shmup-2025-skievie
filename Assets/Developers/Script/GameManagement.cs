@@ -40,6 +40,7 @@ public class GameManagement : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private TextMeshProUGUI highscoreText;
 
     // Game state
     private List<GameObject> activeEnemies = new List<GameObject>();
@@ -203,6 +204,7 @@ public class GameManagement : MonoBehaviour
     {
         score += amount;
         UpdateScoreText();
+        SaveScore();
 
         if (score > highScore)
         {
@@ -220,10 +222,10 @@ public class GameManagement : MonoBehaviour
     }
 
     private void SaveHighScore() => PlayerPrefs.SetInt("HighScore", highScore);
-    private void LoadHighscore() => highScore = PlayerPrefs.GetInt("HighScore", 0);
+    private void LoadHighscore() => highScore = PlayerPrefs.GetInt("HighScore", highScore);
 
     private void SaveScore() => PlayerPrefs.SetInt("Score", score);
-    private void LoadScore() => score = PlayerPrefs.GetInt("Score", 0);
+    private void LoadScore() => score = PlayerPrefs.GetInt("Score", score);
 
     public void RemoveBoss(GameObject Boss)
     {
