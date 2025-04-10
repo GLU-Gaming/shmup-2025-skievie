@@ -10,10 +10,16 @@ public class EnemyBulletScript : MonoBehaviour
 
     private void Start()
     {
-        Destroy(GetComponent<Rigidbody>()); 
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+        }
+
         GetComponent<Collider>().isTrigger = true;
         Destroy(gameObject, lifetime);
     }
+
 
     private void Update()
     {
