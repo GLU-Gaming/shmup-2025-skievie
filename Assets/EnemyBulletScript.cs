@@ -28,14 +28,22 @@ public class EnemyBulletScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (((1 << other.gameObject.layer) & collisionMask) != 0)
+        if (other.CompareTag("Player"))
         {
-            if (other.CompareTag("Player"))
-            {
-                GameManagement game = FindObjectOfType<GameManagement>();
-                if (game != null) game.ReportPlayerHit(damage);
-            }
-            Destroy(gameObject);
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            playerHealth.TakeDamage(damage);
+            Debug.Log("taking damage");
         }
+        Destroy(gameObject);
+
+        //if (((1 << other.gameObject.layer) & collisionMask) != 0)
+        //{
+        //    if (other.CompareTag("Player"))
+        //    {
+        //        GameManagement game = FindObjectOfType<GameManagement>();
+        //        if (game != null) game.ReportPlayerHit(damage);
+        //    }
+        //    Destroy(gameObject);
+        //}
     }
 }

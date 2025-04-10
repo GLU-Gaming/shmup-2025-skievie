@@ -172,6 +172,7 @@ MonoBehaviour:
   playerScript: {fileID: 1817320083}
   maxPlayerHP: 100
   playerHP: 100
+  playerHealth: {fileID: 0}
   scoreText: {fileID: 647710516}
   waveText: {fileID: 0}
   gameOverScreen: {fileID: 0}
@@ -400,7 +401,6 @@ GameObject:
   - component: {fileID: 271129567}
   - component: {fileID: 271129566}
   - component: {fileID: 271129565}
-  - component: {fileID: 271129568}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -491,20 +491,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &271129568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 271129563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc2a74a3d64ee604e874740a49801be4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  healthSlider: {fileID: 427661483}
 --- !u!1 &396451620
 GameObject:
   m_ObjectHideFlags: 0
@@ -1320,6 +1306,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3207012724120927758, guid: b92382c4683e2b244969856f5b70b362, type: 3}
   m_PrefabInstance: {fileID: 2000980324}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1817320093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817320080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2a74a3d64ee604e874740a49801be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  healthSlider: {fileID: 427661483}
 --- !u!1001 &2000980324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1448,6 +1448,10 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.0027656436
       objectReference: {fileID: 0}
+    - target: {fileID: 6530207748484460231, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2434117641393878197, guid: b92382c4683e2b244969856f5b70b362, type: 3}
     m_RemovedGameObjects: []
@@ -1459,6 +1463,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2867185168904545460, guid: b92382c4683e2b244969856f5b70b362, type: 3}
       insertIndex: 4
       addedObject: {fileID: 1817320083}
+    - targetCorrespondingSourceObject: {fileID: 2867185168904545460, guid: b92382c4683e2b244969856f5b70b362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1817320093}
   m_SourcePrefab: {fileID: 100100000, guid: b92382c4683e2b244969856f5b70b362, type: 3}
 --- !u!1 &2027128498
 GameObject:
@@ -1556,7 +1563,7 @@ PrefabInstance:
     - target: {fileID: 6862758496349312951, guid: c3eb2327558be6943be68b76723435eb, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+      objectReference: {fileID: 11400000, guid: 925e0dc148a41e846b41b836c813e52b, type: 2}
     - target: {fileID: 6862758496349312951, guid: c3eb2327558be6943be68b76723435eb, type: 3}
       propertyPath: m_fontSizeBase
       value: 40
@@ -1564,7 +1571,7 @@ PrefabInstance:
     - target: {fileID: 6862758496349312951, guid: c3eb2327558be6943be68b76723435eb, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+      objectReference: {fileID: -8208353643297772981, guid: 925e0dc148a41e846b41b836c813e52b, type: 2}
     - target: {fileID: 6862758496349312951, guid: c3eb2327558be6943be68b76723435eb, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0

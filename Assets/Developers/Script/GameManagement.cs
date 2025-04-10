@@ -35,6 +35,7 @@ public class GameManagement : MonoBehaviour
     [SerializeField] private PlaneScript playerScript;
     public float maxPlayerHP = 100f;
     public float playerHP = 100f;
+    [SerializeField] PlayerHealth playerHealth;
 
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -57,6 +58,17 @@ public class GameManagement : MonoBehaviour
         if (playerScript != null)
             playerScript.game = this;
         StartCoroutine(GameLoop());
+
+        LoadScore();
+        if (SceneManager.GetActiveScene().name == "MichaelDevSceneTest"){
+            score = 0;
+        }
+        if (SceneManager.GetActiveScene().name == "WinScreen" || SceneManager.GetActiveScene().name == "EndGameScreen")
+        {
+            LoadScore();
+            LoadHighscore();
+        }
+        UpdateScoreText();
        
     }
 
@@ -168,7 +180,6 @@ public class GameManagement : MonoBehaviour
 
     public void EnemyDied(GameObject enemy, int scoreValue)
     {
-        audioEnemyDeath.Play();
         AddScore(scoreValue);
         RemoveEnemy(enemy);
     }
@@ -177,6 +188,9 @@ public class GameManagement : MonoBehaviour
     {
         playerHP -= damage;
         playerHP = Mathf.Clamp(playerHP, 0, maxPlayerHP);
+
+        playerHealth.TakeDamage(damage);
+        Debug.Log($"Player HP: {playerHP}");
 
         if (playerHP <= 0) GameOver();
     }
@@ -213,6 +227,14 @@ public class GameManagement : MonoBehaviour
             highScore = score;
             SaveHighScore();
         }
+
+        if (score > 10 && SceneManager.GetActiveScene().name != "Bossfightscene")
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Bossfightscene");
+   
+        }
+
+
     }
 
     private void UpdateScoreText()
@@ -224,7 +246,12 @@ public class GameManagement : MonoBehaviour
     }
 
     private void SaveHighScore() => PlayerPrefs.SetInt("HighScore", highScore);
-    private void LoadHighscore() => highScore = PlayerPrefs.GetInt("HighScore", highScore);
+    private void LoadHighscore()
+    {
+        highScore = PlayerPrefs.GetInt("HighScore", highScore);
+        if (highscoreText != null)
+        highscoreText.text = $"Highscore: {highScore}";
+    }
 
     private void SaveScore() => PlayerPrefs.SetInt("Score", score);
     private void LoadScore() => score = PlayerPrefs.GetInt("Score", score);
