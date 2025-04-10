@@ -39,6 +39,7 @@ public class PlaneScript : MonoBehaviour
     private PlayerHealth playerHealth;
     public GameManagement game;
 
+    public AudioSource PlayerLaseraudio;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -156,6 +157,7 @@ public class PlaneScript : MonoBehaviour
         {
             nextFireTime = Time.time + fireRate;
             Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.Euler(0, 0, 0));
+            PlayerLaseraudio.Play();
         }
     }
 }

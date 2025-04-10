@@ -50,7 +50,7 @@ public class GameManagement : MonoBehaviour
     public int score;
     public int highScore;
 
-    public AudioSource audioEnemyDeath;
+    public AudioSource MainTheme;
     
 
     private void Start()
