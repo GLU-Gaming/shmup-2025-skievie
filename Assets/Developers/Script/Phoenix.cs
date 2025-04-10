@@ -36,14 +36,23 @@ public class PlaneScript : MonoBehaviour
     private Quaternion targetRotation;
     private Quaternion baseRotation = Quaternion.Euler(0, 90, 90);
 
+    private PlayerHealth playerHealth;
     public GameManagement game;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        transform.rotation = baseRotation; // Enforce initial rotation
+        transform.rotation = baseRotation;
         targetRotation = baseRotation;
+
+        playerHealth = GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.OnPlayerDeath += HandlePlayerDeath;
+        }
     }
+
+
 
     private void Update()
     {
@@ -59,7 +68,6 @@ public class PlaneScript : MonoBehaviour
         float horizontalInput = Input.GetKey(KeyCode.D) ? 1f : (Input.GetKey(KeyCode.A) ? -1f : 0f);
         float verticalInput = Input.GetKey(KeyCode.W) ? 1f : (Input.GetKey(KeyCode.S) ? -1f : 0f);
 
-        // Use world-space directions: X (left/right), Y (up/down)
         Vector3 targetVelocity = new Vector3(horizontalInput * moveSpeed, verticalInput * verticalMoveSpeed, 0f);
 
         currentVelocity = targetVelocity.magnitude > 0.1f
@@ -70,7 +78,6 @@ public class PlaneScript : MonoBehaviour
 
         float pitchMultiplier = 2f; 
 
-        // Visual banking/tilting
         currentRollAngle = Mathf.Lerp(currentRollAngle, -verticalInput * maxRollAngle, tiltSmoothness * Time.deltaTime);
         currentPitchAngle = Mathf.Lerp(currentPitchAngle, -horizontalInput * maxPitchAngle * pitchMultiplier, tiltSmoothness * Time.deltaTime);
 
@@ -101,13 +108,12 @@ public class PlaneScript : MonoBehaviour
         Vector3 dashDirection = rb.velocity.normalized;
         if (dashDirection == Vector3.zero)
         {
-            dashDirection = transform.right; // Dash forward by default
+            dashDirection = transform.right; 
         }
 
         rb.velocity = dashDirection * dashingPower;
         TR.emitting = true;
 
-        // Add dramatic tilt during dash
         float dashRoll = dashDirection.x > 0 ? -45f : 45f;
         targetRotation = baseRotation * Quaternion.Euler(0, 0, dashRoll);
 
@@ -123,16 +129,26 @@ public class PlaneScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("EnemyBullet"))
+        // Check for enemy bullets
+        if (collision.gameObject.CompareTag("EnemyBullet")) 
         {
             EnemyBulletScript bullet = collision.gameObject.GetComponent<EnemyBulletScript>();
-            if (bullet != null)
+            if (bullet != null && game != null)
             {
-                game.ReportPlayerHit(bullet.damage);
-                Destroy(collision.gameObject);
+                game.ReportPlayerHit(bullet.damage); 
+                Destroy(collision.gameObject); 
             }
         }
     }
+
+    private void HandlePlayerDeath()
+    {
+        gameObject.SetActive(false);
+
+        if (game != null)
+            game.ReportPlayerHit(9999); 
+    }
+
 
     private void HandleShooting()
     {

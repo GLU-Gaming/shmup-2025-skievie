@@ -54,6 +54,8 @@ public class GameManagement : MonoBehaviour
 
     private void Start()
     {
+        if (playerScript != null)
+            playerScript.game = this;
         StartCoroutine(GameLoop());
        
     }
