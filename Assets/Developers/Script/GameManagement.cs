@@ -54,7 +54,7 @@ public class GameManagement : MonoBehaviour
     private void Start()
     {
         StartCoroutine(GameLoop());
-        LoadHighscore();
+       
     }
 
     private IEnumerator GameLoop()
@@ -222,6 +222,9 @@ public class GameManagement : MonoBehaviour
     private void SaveHighScore() => PlayerPrefs.SetInt("HighScore", highScore);
     private void LoadHighscore() => highScore = PlayerPrefs.GetInt("HighScore", 0);
 
+    private void SaveScore() => PlayerPrefs.SetInt("Score", score);
+    private void LoadScore() => score = PlayerPrefs.GetInt("Score", 0);
+
     public void RemoveBoss(GameObject Boss)
     {
         Destroy(Boss);
@@ -238,6 +241,8 @@ public class GameManagement : MonoBehaviour
     public void DefeatBossToWinScreen()
     { 
         SceneManager.LoadScene("WinScreen");
+        LoadScore();
+        LoadHighscore();
     }
 
 }
