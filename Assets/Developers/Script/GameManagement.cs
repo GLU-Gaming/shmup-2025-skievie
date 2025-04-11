@@ -140,8 +140,7 @@ public class GameManagement : MonoBehaviour
             activeEnemies.Add(enemy.gameObject);
             enemy.Activate();
 
-            // Auto-remove after 5 seconds if not destroyed
-            StartCoroutine(AutoRemoveEnemy(enemy.gameObject, 5f));
+           
         }
     }
 
