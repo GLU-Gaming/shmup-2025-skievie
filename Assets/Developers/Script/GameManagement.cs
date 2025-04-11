@@ -144,11 +144,7 @@ public class GameManagement : MonoBehaviour
         }
     }
 
-    private IEnumerator AutoRemoveEnemy(GameObject enemy, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (enemy != null) RemoveEnemy(enemy);
-    }
+   
 
     private Vector3 GetValidSpawnPosition()
     {
@@ -227,7 +223,7 @@ public class GameManagement : MonoBehaviour
             SaveHighScore();
         }
 
-        if (score > 750 && SceneManager.GetActiveScene().name != "Bossfightscene")
+        if (score > 450 && SceneManager.GetActiveScene().name != "Bossfightscene")
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Bossfightscene");
    
